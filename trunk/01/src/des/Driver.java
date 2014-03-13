@@ -10,10 +10,12 @@ public class Driver {
 		Input input = new Input();
 		input.setPlainText(message);
 		System.out.println(input.getHexRepresentation());
-		System.out.println(input.getBitsRepresentation());
+		System.out.println(input.getBitRepresentation());
 
 		input.setHexText(hex);
 		System.out.println(input.getHexRepresentation());
-		System.out.println(input.getBitsRepresentation());
+		System.out.println(input.getBitRepresentation());
+		
+		
 	}
 }

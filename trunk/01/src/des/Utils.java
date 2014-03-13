@@ -1,5 +1,7 @@
 package des;
 
+import java.security.Key;
+
 import javax.swing.JOptionPane;
 
 public class Utils {
@@ -84,7 +86,11 @@ public class Utils {
 		return bytes;
 	}
 	
-	public static Output encode(Input input) {
+	public static Output encode(Input input, Key key) {
+		return null;
+	}
+	
+	public static Output decode(Input input, Key key) {
 		return null;
 	}
 

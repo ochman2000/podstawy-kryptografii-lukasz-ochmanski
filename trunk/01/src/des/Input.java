@@ -1,5 +1,7 @@
 package des;
 
+import java.math.BigInteger;
+
 public class Input {
 	private byte[] value;
 	
@@ -27,11 +29,7 @@ public class Input {
 		return bytes;
 	}
 	
-	public int[] getBits() {
-			return null;
-	}
-	
-	public String getBitsRepresentation() {
+	public String getBitRepresentation() {
 		String plainBits = Utils.bytesToBits(value);
 		return plainBits;
 	}
