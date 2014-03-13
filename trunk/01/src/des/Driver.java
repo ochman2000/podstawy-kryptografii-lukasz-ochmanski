@@ -4,9 +4,9 @@ public class Driver {
 
 	public static void main(String[] args) {
 		
-//		String plainText = "01234567890ABCDEF";
-		String plainText = "hahaha";
-		byte[] plainBytes = plainText.getBytes();
+		String M = "0123456789ABCDEF";
+		byte[] hexBytes = M.getBytes();
+		byte[] plainBytes = Utils.hexToBytes(M);
 		String plainBits = Utils.bytesToBits(plainBytes);
 		System.out.println(plainBits);
 		String bytes = Utils.bitsToBytes(plainBits);
