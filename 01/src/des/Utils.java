@@ -83,5 +83,9 @@ public class Utils {
 		}
 		return bytes;
 	}
+	
+	public static Output encode(Input input) {
+		return null;
+	}
 
 }
