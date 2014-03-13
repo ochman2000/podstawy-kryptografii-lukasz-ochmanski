@@ -4,25 +4,16 @@ public class Driver {
 
 	public static void main(String[] args) {
 		
-		String M = "0123456789ABCDEF";
-		byte[] hexBytes = M.getBytes();
-		byte[] plainBytes = Utils.hexToBytes(M);
-		String plainBits = Utils.bytesToBits(plainBytes);
-		System.out.println(plainBits);
-		String bytes = Utils.bitsToBytes(plainBits);
-		System.out.println(bytes);
+		String message = "hahaha";
+		String hex = "686168616861";
 		
-		//teraz odwracamy dla sprawdzenia
-		plainBits = Utils.bytesToBits(plainBytes);
-		System.out.println(plainBits);
-		
-		
-//		String hexText = Utils.bytesToHex(plainBytes);
-//		byte[] tablica = Utils.hexToBytes(hexText);
-//		System.out.println(tablica);
-		
-		
-		
-	}
+		Input input = new Input();
+		input.setPlainText(message);
+		System.out.println(input.getHexRepresentation());
+		System.out.println(input.getBitsRepresentation());
 
+		input.setHexText(hex);
+		System.out.println(input.getHexRepresentation());
+		System.out.println(input.getBitsRepresentation());
+	}
 }
