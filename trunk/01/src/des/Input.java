@@ -1,6 +1,5 @@
 package des;
 
-import java.math.BigInteger;
 
 public class Input {
 	private byte[] value;
@@ -32,5 +31,9 @@ public class Input {
 	public String getBitRepresentation() {
 		String plainBits = Utils.bytesToBits(value);
 		return plainBits;
+	}
+	
+	public byte byteAt(int index) {
+		return value[index];
 	}
 }
