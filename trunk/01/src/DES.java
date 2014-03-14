@@ -343,6 +343,8 @@ public class DES
     public byte[] encode(byte[] message) 
     {
         int len;
+        System.out.println(message.length / 2 % 4);
+        System.out.println((message.length / 8 + 1)*8);
         if ((message.length / 2 % 4) != 0) 
             len = (message.length / 8 + 1) * 8;
         else 
@@ -354,20 +356,26 @@ public class DES
             rawData = message;
             for (int i = 0; i < (rawData.length / 8); i++) 
             {
+            	System.out.println(rawData.length / 8);
                 tempBlock = encodeBlock(rawData, i * 8);
+                System.out.println(tempBlock);
                 System.arraycopy(tempBlock, 0, result, i * 8, 8);
             }
+            System.out.println(message.length / 2 % 4);
             if (message.length / 2 % 4 != 0) 
             {
                 for (int i = 0; i < 8; i++) 
                 {
-                    if (i + (rawData.length / 8) * 8 < rawData.length) 
+                    if (i + (rawData.length / 8) * 8 < rawData.length) {
                         tempBlock[i] = rawData[i + (rawData.length / 8) * 8];
+                        System.out.println(tempBlock[i]);
+                    }
                     else 
                         tempBlock[i] = 0;
                 }
                 tempBlock = encodeBlock(tempBlock, 0);
                 System.arraycopy(tempBlock, 0, result, (rawData.length / 8) * 8, 8);
+                System.out.println(tempBlock);
             }
              return result;
             } catch (Exception ex) {};

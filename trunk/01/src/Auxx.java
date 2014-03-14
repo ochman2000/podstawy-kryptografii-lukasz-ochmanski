@@ -107,6 +107,8 @@ public class Auxx
             }
             hexText.append(initialHex);
         }
+        System.out.println(hexText);
+        System.out.println(hexText.toString());
         return hexText.toString();
     }
     
