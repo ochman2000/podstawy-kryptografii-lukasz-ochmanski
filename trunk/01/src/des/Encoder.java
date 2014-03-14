@@ -1,7 +1,5 @@
 package des;
 
-import java.util.BitSet;
-
 public class Encoder {
 
 	public static boolean DEBUG = true;
@@ -68,7 +66,7 @@ public class Encoder {
 			permutedKey.set(i, bit);
 		}
 		if (Encoder.DEBUG) {
-			System.out.println(Key.getBitRepresentation(permutedKey));
+			System.out.println(permutedKey.getBitRepresentation());
 		}
 		return permutedKey;
 	}

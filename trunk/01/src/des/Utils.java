@@ -84,11 +84,11 @@ public class Utils {
 		return bytes;
 	}
 	
-	public static Output encode(Input input, Key key) {
+	public static Output encode(Input input, BitSet key) {
 		return null;
 	}
 	
-	public static Output decode(Input input, Key key) {
+	public static Output decode(Input input, BitSet key) {
 		return null;
 	}
 
