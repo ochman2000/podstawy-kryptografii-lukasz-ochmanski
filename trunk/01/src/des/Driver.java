@@ -6,7 +6,7 @@ public class Driver {
 		
 		String mHex = "0123456789ABCDEF";
 		String kHex = "133457799BBCDFF1";
-		BitSet key = BitSet.setHexText(kHex);
+		BitSet key = BitSet.valueOfHex(kHex);
 //		Input input = new Input();
 //		input.setHexText(mHex);
 //		System.out.println(key.getHexRepresentation());
