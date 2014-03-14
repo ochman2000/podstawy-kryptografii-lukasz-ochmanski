@@ -1,5 +1,7 @@
 package des;
 
+import java.util.BitSet;
+
 public class Encoder {
 
 	public static boolean DEBUG = true;
@@ -46,7 +48,7 @@ public class Encoder {
 	/**
 	 * Permute the key.
 	 */
-	public Key step1(Key key) {
+	public BitSet step1(BitSet key) {
 		final byte[] PC1 = { 
 				57, 49, 41, 33, 25, 17,  9,
 				1 , 58, 50, 42, 34, 26, 18,
@@ -56,15 +58,18 @@ public class Encoder {
 				 7, 62, 54, 46, 38, 30, 22,
 				14,  6, 61,	53, 45, 37, 29, 
 				21, 13,  5, 28, 20, 12,  4 };
-		byte[] k = new byte[56];
-		for (int i=0; i<56; i++) {
-			k[i] = key.bitAt(PC1[i]);
+		BitSet permutedKey = new BitSet(key.length());
+		
+		for (int i=0; i<PC1.length; i++) {
+			byte index = PC1[i];
+			boolean bit = key.get(index);
+			System.out.println("K["+i+"]="+index);
+			System.out.println("permutedKey["+i+"]="+bit);
+			permutedKey.set(i, bit);
 		}
-		Key newKey = new Key();
-		newKey.setValue(k);
-		if (DEBUG) {
-			newKey.getBitRepresentation();
+		if (Encoder.DEBUG) {
+			System.out.println(Key.getBitRepresentation(permutedKey));
 		}
-		return newKey;
+		return permutedKey;
 	}
 }

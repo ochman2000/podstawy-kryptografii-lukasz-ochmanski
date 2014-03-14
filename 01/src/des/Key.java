@@ -1,36 +1,35 @@
 package des;
 
-import java.math.BigInteger;
+import java.util.BitSet;
 
-public class Key {
-	private byte[] value;
+public class Key extends BitSet{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	public Key() {	}
-
-	public void setValue(byte[] value) {
-		this.value = value;
+	public Key() {
+		super();
 	}
 	
-	public void setPlainText(String text) {
-		value = text.getBytes();
+	public static BitSet setPlainText(String text) {
+		return BitSet.valueOf(text.getBytes());
 	}
 	
-	public void setHexText(String text) {
-		value = Utils.hexToBytes(text);
-	}
-
-	public byte[] getBytes() {
-		return value;
+	public static BitSet setHexText(String text) {
+		return BitSet.valueOf(Utils.hexToBytes(text));
 	}
 	
-	public String getHexRepresentation() {
-		String plainBits = Utils.bytesToBits(value);
+	public static String getHexRepresentation(BitSet bits) {
+		String plainBits = Utils.bytesToBits(bits.toByteArray());
 		String bytes = Utils.bitsToBytes(plainBits);
 		return bytes;
 	}
 	
-	public String getBitRepresentation() {
-		String plainBits = Utils.bytesToBits(value);
+	public static String getBitRepresentation(BitSet bits) {
+		String plainBits = Utils.bytesToBits(bits.toByteArray());
 		return plainBits;
 	}
+
+
 }
