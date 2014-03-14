@@ -1165,11 +1165,11 @@ public class BitSet implements Cloneable, java.io.Serializable {
         return b.toString();
     }
     
-    public static BitSet setPlainText(String text) {
+    public static BitSet valueOfPlainText(String text) {
 		return BitSet.valueOf(text.getBytes());
 	}
 	
-	public static BitSet setHexText(String text) {
+	public static BitSet valueOfHex(String text) {
 		return BitSet.valueOf(Utils.hexToBytes(text));
 	}
 	
