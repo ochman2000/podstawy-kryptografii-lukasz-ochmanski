@@ -57,14 +57,30 @@ public class Encoder {
 				14,  6, 61,	53, 45, 37, 29, 
 				21, 13,  5, 28, 20, 12,  4 };
 		BitSet permutedKey = new BitSet(key.length());
+		if (Encoder.DEBUG) {
+			System.out.println("Poniżej jest iteracja tego badziewia z użyciem BitSet:");
+			for (int i=0; i<key.length(); i++) {
+				if (key.get(i))
+					System.out.print(1);
+				else
+					System.out.print(0);
+				if (i%8==7)
+					System.out.print(" ");
+			}
+			System.out.println();
+		}
+
 		
 		for (int i=0; i<PC1.length; i++) {
 			byte index = PC1[i];
-			System.out.println("PC1["+i+"]="+index);
+			if (Encoder.DEBUG)
+				System.out.println("PC1["+i+"]="+index);
 			boolean bit = key.get(index);
-			System.out.println("key["+index+"]="+key.get(index));
+			if (Encoder.DEBUG)
+				System.out.println("key["+index+"]="+key.get(index));
 			permutedKey.set(i, bit);
-			System.out.println("permutedKey["+i+"]="+bit);
+			if (Encoder.DEBUG)
+				System.out.println("permutedKey["+i+"]="+bit);
 		}
 		if (Encoder.DEBUG) {
 			System.out.println(permutedKey.getBitRepresentation());
