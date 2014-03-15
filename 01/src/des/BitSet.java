@@ -1175,6 +1175,17 @@ public class BitSet implements Cloneable, java.io.Serializable {
 		return bitset; 
 	}
 	
+	public static BitSet valueOfBits(byte[] bits) {
+		BitSet bitset = new BitSet(bits.length);
+		for (int i=0; i<bits.length; i++) {
+			if (bits[i]==0)
+				bitset.clear(i);
+			else
+				bitset.set(i);
+		}
+		return bitset;
+	}
+	
 	public String getHexRepresentation() {
 		String plainBits = Utils.bytesToBits(this.toByteArray());
 		String bytes = Utils.bitsToBytes(plainBits);
@@ -1182,7 +1193,15 @@ public class BitSet implements Cloneable, java.io.Serializable {
 	}
 	
 	public String getBitRepresentation() {
-		String plainBits = Utils.bytesToBits(this.toByteArray());
+		String plainBits = "";
+		for (int i=0; i<this.length(); i++) {
+			if (this.get(i))
+				plainBits=plainBits+1;
+			else
+				plainBits=plainBits+0;
+			if (i%8==7)
+				plainBits=plainBits+" ";
+		}
 		return plainBits.trim();
 	}
 
