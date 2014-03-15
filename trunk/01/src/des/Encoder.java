@@ -60,10 +60,11 @@ public class Encoder {
 		
 		for (int i=0; i<PC1.length; i++) {
 			byte index = PC1[i];
+			System.out.println("PC1["+i+"]="+index);
 			boolean bit = key.get(index);
-			System.out.println("K["+i+"]="+index);
-			System.out.println("permutedKey["+i+"]="+bit);
+			System.out.println("key["+index+"]="+key.get(index));
 			permutedKey.set(i, bit);
+			System.out.println("permutedKey["+i+"]="+bit);
 		}
 		if (Encoder.DEBUG) {
 			System.out.println(permutedKey.getBitRepresentation());

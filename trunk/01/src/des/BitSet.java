@@ -1170,7 +1170,9 @@ public class BitSet implements Cloneable, java.io.Serializable {
 	}
 	
 	public static BitSet valueOfHex(String text) {
-		return BitSet.valueOf(Utils.hexToBytes(text));
+		BitSet bitset = BitSet.valueOf(Utils.hexToBytes(text));
+
+		return bitset; 
 	}
 	
 	public String getHexRepresentation() {
@@ -1181,7 +1183,7 @@ public class BitSet implements Cloneable, java.io.Serializable {
 	
 	public String getBitRepresentation() {
 		String plainBits = Utils.bytesToBits(this.toByteArray());
-		return plainBits;
+		return plainBits.trim();
 	}
 
 }
