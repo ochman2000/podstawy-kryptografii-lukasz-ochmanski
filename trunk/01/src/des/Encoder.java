@@ -4,7 +4,7 @@ import java.math.BigInteger;
 
 public class Encoder {
 
-	public static Debug LEVEL = Debug.LEVEL2;
+	public static Debug LEVEL = Debug.LEVEL3;
 
 	public Encoder() {
 	}
@@ -56,23 +56,22 @@ public class Encoder {
 				53, 45, 37, 29, 21, 13, 5, 28, 20, 12, 4 };
 		BitSet permutedKey = new BitSet(PC1.length);
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
-			System.out.println(key.getBitRepresentation(8));
+			System.out.println("64-bitowy klucz: "+key.getBitRepresentation(8));
 		}
 
 		for (int i = 0; i < PC1.length; i++) {
 			byte index = PC1[i];
-			if (Encoder.LEVEL.getValue() > Debug.LEVEL2.getValue())
-				System.out.println("PC1[" + i + "]=" + index);
 			boolean bit = key.get(index - 1);
-			if (Encoder.LEVEL.getValue() > Debug.LEVEL2.getValue())
-				System.out.println("key[" + (index - 1) + "]="
-						+ key.get(index - 1));
 			permutedKey.set(i, bit);
-			if (Encoder.LEVEL.getValue() > Debug.LEVEL2.getValue())
+			if (Encoder.LEVEL.getValue() > Debug.LEVEL3.getValue()) {				
+				System.out.println("PC1[" + i + "]=" + index);
+				System.out.println("key[" + (index - 1) + "]="+ key.get(index - 1));
 				System.out.println("permutedKey[" + i + "]=" + bit);
+			}
 		}
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
-			System.out.println(permutedKey.getBitRepresentation(7));
+			System.out.println("Następuje permutacja klucza...");
+			System.out.println("56-bitowy klucz: "+permutedKey.getBitRepresentation(7));
 		}
 		return permutedKey;
 	}
@@ -84,11 +83,8 @@ public class Encoder {
 	 * @return
 	 */
 	public BitSet step2(BitSet key) {
-		BitSet C0 = key.get(0, (key.len()/2));
-//		BitSet D0 = key.subset(key.len() / 2, key.len());
-		
 //		int[] shiftSchedule = { 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1 };
-
+		BitSet C0 = key.get(0, (key.len()/2));
 		BitSet C1 = C0.rotateLeft();
 		BitSet C2 = C1.rotateLeft();
 		BitSet C3 = C2.rotateLeft().rotateLeft();
@@ -105,8 +101,27 @@ public class Encoder {
 		BitSet C14 = C13.rotateLeft().rotateLeft();
 		BitSet C15 = C14.rotateLeft().rotateLeft();
 		BitSet C16 = C15.rotateLeft();
+		
+		BitSet D0 = key.get(key.len() / 2, key.len());
+		BitSet D1 = D0.rotateLeft();
+		BitSet D2 = D1.rotateLeft();
+		BitSet D3 = D2.rotateLeft().rotateLeft();
+		BitSet D4 = D3.rotateLeft().rotateLeft();
+		BitSet D5 = D4.rotateLeft().rotateLeft();
+		BitSet D6 = D5.rotateLeft().rotateLeft();
+		BitSet D7 = D6.rotateLeft().rotateLeft();
+		BitSet D8 = D7.rotateLeft().rotateLeft();
+		BitSet D9 = D8.rotateLeft();
+		BitSet D10 = D9.rotateLeft().rotateLeft();
+		BitSet D11 = D10.rotateLeft().rotateLeft();
+		BitSet D12 = D11.rotateLeft().rotateLeft();
+		BitSet D13 = D12.rotateLeft().rotateLeft();
+		BitSet D14 = D13.rotateLeft().rotateLeft();
+		BitSet D15 = D14.rotateLeft().rotateLeft();
+		BitSet D16 = D15.rotateLeft();
 
 		if (LEVEL.getValue() > Debug.LEVEL2.getValue()) {
+			System.out.println("Następuje pocięcie klucza i 16-krotna rotacja...");
 			System.out.println("C00: " + C0.getBitRepresentation());
 			System.out.println("C01: " + C1.getBitRepresentation());
 			System.out.println("C02: " + C2.getBitRepresentation());
@@ -124,6 +139,24 @@ public class Encoder {
 			System.out.println("C14: " + C14.getBitRepresentation());
 			System.out.println("C15: " + C15.getBitRepresentation());
 			System.out.println("C16: " + C16.getBitRepresentation());
+			System.out.println();
+			System.out.println("D00: " + D0.getBitRepresentation());
+			System.out.println("D01: " + D1.getBitRepresentation());
+			System.out.println("D02: " + D2.getBitRepresentation());
+			System.out.println("D03: " + D3.getBitRepresentation());
+			System.out.println("D04: " + D4.getBitRepresentation());
+			System.out.println("D05: " + D5.getBitRepresentation());
+			System.out.println("D06: " + D6.getBitRepresentation());
+			System.out.println("D07: " + D7.getBitRepresentation());
+			System.out.println("D08: " + D8.getBitRepresentation());
+			System.out.println("D09: " + D9.getBitRepresentation());
+			System.out.println("D10: " + D10.getBitRepresentation());
+			System.out.println("D11: " + D11.getBitRepresentation());
+			System.out.println("D12: " + D12.getBitRepresentation());
+			System.out.println("D13: " + D13.getBitRepresentation());
+			System.out.println("D14: " + D14.getBitRepresentation());
+			System.out.println("D15: " + D15.getBitRepresentation());
+			System.out.println("D16: " + D16.getBitRepresentation());
 		}
 
 		return null;
