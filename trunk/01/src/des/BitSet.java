@@ -7,6 +7,8 @@ import java.nio.ByteOrder;
 import java.nio.LongBuffer;
 import java.util.Arrays;
 
+import plodz.pk.Debug;
+
 /**
  * This class implements a vector of bits that grows as needed. Each
  * component of the bit set has a {@code boolean} value. The

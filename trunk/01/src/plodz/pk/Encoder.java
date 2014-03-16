@@ -1,8 +1,4 @@
-package des;
-
-import java.math.BigInteger;
-
-import plodz.pk.Debug;
+package plodz.pk;
 
 public class Encoder {
 
@@ -51,19 +47,19 @@ public class Encoder {
 	 * EN Permute the key according to some pattern given in PC1. PL Pomieszaj
 	 * bity.
 	 */
-	public BitSet step1(BitSet key) {
+	public BitArray step1(BitArray key) {
 		final byte[] PC1 = { 57, 49, 41, 33, 25, 17, 9, 1, 58, 50, 42, 34, 26,
 				18, 10, 2, 59, 51, 43, 35, 27, 19, 11, 3, 60, 52, 44, 36, 63,
 				55, 47, 39, 31, 23, 15, 7, 62, 54, 46, 38, 30, 22, 14, 6, 61,
 				53, 45, 37, 29, 21, 13, 5, 28, 20, 12, 4 };
-		BitSet permutedKey = new BitSet(PC1.length);
+		BitArray permutedKey = new BitArray(PC1.length);
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
 			System.out.println("64-bitowy klucz: "+key.getBitRepresentation(8));
 		}
 
 		for (int i = 0; i < PC1.length; i++) {
 			byte index = PC1[i];
-			boolean bit = key.get(index - 1);
+			Bit bit = key.get(index - 1);
 			permutedKey.set(i, bit);
 			if (Encoder.LEVEL.getValue() > Debug.LEVEL3.getValue()) {				
 				System.out.println("PC1[" + i + "]=" + index);
@@ -84,43 +80,43 @@ public class Encoder {
 	 * @param key
 	 * @return
 	 */
-	public BitSet step2(BitSet key) {
+	public BitArray step2(BitArray key) {
 //		int[] shiftSchedule = { 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1 };
-		BitSet C0 = key.get(0, (key.len()/2));
-		BitSet C1 = C0.rotateLeft();
-		BitSet C2 = C1.rotateLeft();
-		BitSet C3 = C2.rotateLeft().rotateLeft();
-		BitSet C4 = C3.rotateLeft().rotateLeft();
-		BitSet C5 = C4.rotateLeft().rotateLeft();
-		BitSet C6 = C5.rotateLeft().rotateLeft();
-		BitSet C7 = C6.rotateLeft().rotateLeft();
-		BitSet C8 = C7.rotateLeft().rotateLeft();
-		BitSet C9 = C8.rotateLeft();
-		BitSet C10 = C9.rotateLeft().rotateLeft();
-		BitSet C11 = C10.rotateLeft().rotateLeft();
-		BitSet C12 = C11.rotateLeft().rotateLeft();
-		BitSet C13 = C12.rotateLeft().rotateLeft();
-		BitSet C14 = C13.rotateLeft().rotateLeft();
-		BitSet C15 = C14.rotateLeft().rotateLeft();
-		BitSet C16 = C15.rotateLeft();
+		BitArray C0 = key.get(0, (key.len()/2));
+		BitArray C1 = C0.rotateLeft();
+		BitArray C2 = C1.rotateLeft();
+		BitArray C3 = C2.rotateLeft().rotateLeft();
+		BitArray C4 = C3.rotateLeft().rotateLeft();
+		BitArray C5 = C4.rotateLeft().rotateLeft();
+		BitArray C6 = C5.rotateLeft().rotateLeft();
+		BitArray C7 = C6.rotateLeft().rotateLeft();
+		BitArray C8 = C7.rotateLeft().rotateLeft();
+		BitArray C9 = C8.rotateLeft();
+		BitArray C10 = C9.rotateLeft().rotateLeft();
+		BitArray C11 = C10.rotateLeft().rotateLeft();
+		BitArray C12 = C11.rotateLeft().rotateLeft();
+		BitArray C13 = C12.rotateLeft().rotateLeft();
+		BitArray C14 = C13.rotateLeft().rotateLeft();
+		BitArray C15 = C14.rotateLeft().rotateLeft();
+		BitArray C16 = C15.rotateLeft();
 		
-		BitSet D0 = key.get(key.len() / 2, key.len());
-		BitSet D1 = D0.rotateLeft();
-		BitSet D2 = D1.rotateLeft();
-		BitSet D3 = D2.rotateLeft().rotateLeft();
-		BitSet D4 = D3.rotateLeft().rotateLeft();
-		BitSet D5 = D4.rotateLeft().rotateLeft();
-		BitSet D6 = D5.rotateLeft().rotateLeft();
-		BitSet D7 = D6.rotateLeft().rotateLeft();
-		BitSet D8 = D7.rotateLeft().rotateLeft();
-		BitSet D9 = D8.rotateLeft();
-		BitSet D10 = D9.rotateLeft().rotateLeft();
-		BitSet D11 = D10.rotateLeft().rotateLeft();
-		BitSet D12 = D11.rotateLeft().rotateLeft();
-		BitSet D13 = D12.rotateLeft().rotateLeft();
-		BitSet D14 = D13.rotateLeft().rotateLeft();
-		BitSet D15 = D14.rotateLeft().rotateLeft();
-		BitSet D16 = D15.rotateLeft();
+		BitArray D0 = key.get(key.len() / 2, key.len());
+		BitArray D1 = D0.rotateLeft();
+		BitArray D2 = D1.rotateLeft();
+		BitArray D3 = D2.rotateLeft().rotateLeft();
+		BitArray D4 = D3.rotateLeft().rotateLeft();
+		BitArray D5 = D4.rotateLeft().rotateLeft();
+		BitArray D6 = D5.rotateLeft().rotateLeft();
+		BitArray D7 = D6.rotateLeft().rotateLeft();
+		BitArray D8 = D7.rotateLeft().rotateLeft();
+		BitArray D9 = D8.rotateLeft();
+		BitArray D10 = D9.rotateLeft().rotateLeft();
+		BitArray D11 = D10.rotateLeft().rotateLeft();
+		BitArray D12 = D11.rotateLeft().rotateLeft();
+		BitArray D13 = D12.rotateLeft().rotateLeft();
+		BitArray D14 = D13.rotateLeft().rotateLeft();
+		BitArray D15 = D14.rotateLeft().rotateLeft();
+		BitArray D16 = D15.rotateLeft();
 
 		if (LEVEL.getValue() > Debug.LEVEL2.getValue()) {
 			System.out.println("Następuje pocięcie klucza i 16-krotna rotacja...");
