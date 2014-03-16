@@ -1,6 +1,7 @@
 package des;
 
 import java.io.*;
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.LongBuffer;
@@ -75,6 +76,7 @@ public class BitSet implements Cloneable, java.io.Serializable {
      * the user knows what he's doing and try harder to preserve it.
      */
     private transient boolean sizeIsSticky = false;
+	private int len;
 
     /* use serialVersionUID from JDK 1.0.2 for interoperability */
     private static final long serialVersionUID = 7997698588986878753L;
@@ -129,6 +131,7 @@ public class BitSet implements Cloneable, java.io.Serializable {
      */
     public BitSet(int nbits) {
         // nbits can't be negative; size 0 is OK
+    	len = nbits;
         if (nbits < 0)
             throw new NegativeArraySizeException("nbits < 0: " + nbits);
 
@@ -1193,16 +1196,52 @@ public class BitSet implements Cloneable, java.io.Serializable {
 	}
 	
 	public String getBitRepresentation() {
+		return getBitRepresentation(Integer.MAX_VALUE);
+	}
+	
+	public String getBitRepresentation(int separator) {
 		String plainBits = "";
-		for (int i=0; i<this.length(); i++) {
+		for (int i=0; i<this.len(); i++) {
 			if (this.get(i))
 				plainBits=plainBits+1;
 			else
 				plainBits=plainBits+0;
-			if (i%8==7)
+			if (i%separator==separator-1)
 				plainBits=plainBits+" ";
 		}
-		return plainBits.trim();
+		if (Encoder.LEVEL.getValue()>Debug.LEVEL3.getValue()) {
+			int bitCount = new BigInteger(this.toByteArray()).bitCount();
+			int bitLength = new BigInteger(this.toByteArray()).bitLength();
+			return plainBits.trim() + " ("+this.size()+" "+this.getLen()+" "+this.len()+" "+bitCount+" "+bitLength+")";
+		}
+		else
+			return plainBits.trim();
+	}
+	
+	/**
+	 * Zwraca faktyczną liczbę bitów używanych.
+	 * @return
+	 */
+	
+	public int len() {
+		return getLen();
+//		int bitCount = new BigInteger(this.toByteArray()).bitCount();
+//		int bitLength = new BigInteger(this.toByteArray()).bitLength();
+//		return this.toByteArray().length*8;
 	}
 
+	public BitSet rotateLeft() {
+		BitSet bitset = new BitSet(this.len());
+		boolean first = this.get(0);
+		for (int i=0; i<this.len()-1; i++) {
+			boolean next = this.get(i+1);
+			bitset.set(i, next);
+		}
+		bitset.set(this.len()-1, first);
+		return bitset;
+	}
+
+	public int getLen() {
+		return len;
+	}
 }

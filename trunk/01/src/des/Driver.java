@@ -13,6 +13,8 @@ public class Driver {
 				1,0,0,1,1,0,1,1,	1,0,1,1,1,1,0,0,	1,1,0,1,1,1,1,1,	1,1,1,1,0,0,0,1};
 		BitSet key = BitSet.valueOfBits(kBits);
 
-		new Encoder().step1(key);
+		Encoder encoder = new Encoder();
+		key = encoder.step1(key);
+		key = encoder.step2(key);
 	}
 }
