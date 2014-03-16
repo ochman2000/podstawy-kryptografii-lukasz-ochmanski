@@ -2,7 +2,7 @@ package plodz.pk;
 
 public class Encoder {
 
-	public static Debug LEVEL = Debug.LEVEL3;
+	public static Debug LEVEL = Debug.LEVEL4;
 
 	public Encoder() {
 	}
@@ -53,6 +53,7 @@ public class Encoder {
 				55, 47, 39, 31, 23, 15, 7, 62, 54, 46, 38, 30, 22, 14, 6, 61,
 				53, 45, 37, 29, 21, 13, 5, 28, 20, 12, 4 };
 		BitArray permutedKey = new BitArray(PC1.length);
+		
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
 			System.out.println("64-bitowy klucz: "+key.getBitRepresentation(8));
 		}

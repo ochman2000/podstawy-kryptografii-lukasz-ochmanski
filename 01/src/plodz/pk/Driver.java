@@ -10,10 +10,8 @@ public class Driver {
 				0,0,0,1,0,0,1,1,	0,0,1,1,0,1,0,0,	0,1,0,1,0,1,1,1,	0,1,1,1,1,0,0,1,
 				1,0,0,1,1,0,1,1,	1,0,1,1,1,1,0,0,	1,1,0,1,1,1,1,1,	1,1,1,1,0,0,0,1};
 		BitArray key = new BitArray(kBits);
-		System.out.println(key.getBitRepresentation(8));
-//
-//		Encoder encoder = new Encoder();
-//		key = encoder.step1(key);
-//		key = encoder.step2(key);
+		Encoder encoder = new Encoder();
+		key = encoder.step1(key);
+		key = encoder.step2(key);
 	}
 }

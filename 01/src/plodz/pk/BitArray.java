@@ -28,6 +28,9 @@ public class BitArray {
 
 	public BitArray(int size) {
 		this.list = new ArrayList<>(size);
+		for (int i=0; i<size; i++) {
+			list.add(Bit.bit0);
+		}
 		this.len = size;
 	}
 	
@@ -35,9 +38,9 @@ public class BitArray {
 		String plainBits = "";
 		for (int i=0; i<list.size(); i++) {
 			if (list.get(i)==Bit.bit0)
-				plainBits=plainBits+1;
-			else
 				plainBits=plainBits+0;
+			else
+				plainBits=plainBits+1;
 			if (i%separator==separator-1)
 				plainBits=plainBits+" ";
 		}
