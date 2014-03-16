@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class BitArray {
 
 	ArrayList<Bit> list;
-	int len;
+	private int len;
 	
 	public BitArray(int[] array) {
 		list = new ArrayList<Bit>(array.length);
@@ -69,7 +69,7 @@ public class BitArray {
 	
 	public BitArray get(int from, int to) {
 		int size = to-from;
-		int currentIndex=0;
+		int currentIndex=from;
 		BitArray bitArray = new BitArray(size);
 		for (int i=0; i<size; i++) {
 			bitArray.set(i, list.get(currentIndex));

@@ -12,6 +12,7 @@ public class Driver {
 		BitArray key = new BitArray(kBits);
 		Encoder encoder = new Encoder();
 		key = encoder.step1(key);
-		key = encoder.step2(key);
+		BitArray[] keys = encoder.step2(key);
+		keys = encoder.step3(keys);
 	}
 }
