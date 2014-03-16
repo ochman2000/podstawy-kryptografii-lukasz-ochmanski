@@ -1,8 +1,10 @@
 package des;
 
+import java.math.BigInteger;
+
 public class Encoder {
 
-	public static boolean DEBUG = true;
+	public static Debug LEVEL = Debug.LEVEL2;
 
 	public Encoder() {
 	}
@@ -44,46 +46,86 @@ public class Encoder {
 	 */
 
 	/**
-	 * Permute the key.
+	 * EN Permute the key according to some pattern given in PC1. PL Pomieszaj
+	 * bity.
 	 */
 	public BitSet step1(BitSet key) {
-		final byte[] PC1 = { 
-				57, 49, 41, 33, 25, 17,  9,
-				1 , 58, 50, 42, 34, 26, 18,
-				10,  2, 59, 51, 43, 35, 27,
-				19, 11,  3, 60, 52, 44, 36,
-				63,	55, 47, 39, 31, 23, 15,
-				 7, 62, 54, 46, 38, 30, 22,
-				14,  6, 61,	53, 45, 37, 29, 
-				21, 13,  5, 28, 20, 12,  4 };
-		BitSet permutedKey = new BitSet(key.length());
-		if (Encoder.DEBUG) {
-			System.out.println(key.getBitRepresentation());
+		final byte[] PC1 = { 57, 49, 41, 33, 25, 17, 9, 1, 58, 50, 42, 34, 26,
+				18, 10, 2, 59, 51, 43, 35, 27, 19, 11, 3, 60, 52, 44, 36, 63,
+				55, 47, 39, 31, 23, 15, 7, 62, 54, 46, 38, 30, 22, 14, 6, 61,
+				53, 45, 37, 29, 21, 13, 5, 28, 20, 12, 4 };
+		BitSet permutedKey = new BitSet(PC1.length);
+		if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
+			System.out.println(key.getBitRepresentation(8));
 		}
 
-		
-		for (int i=0; i<PC1.length; i++) {
+		for (int i = 0; i < PC1.length; i++) {
 			byte index = PC1[i];
-			if (Encoder.DEBUG)
-				System.out.println("PC1["+i+"]="+index);
-			boolean bit = key.get(index-1);
-			if (Encoder.DEBUG)
-				System.out.println("key["+(index-1)+"]="+key.get(index-1));
+			if (Encoder.LEVEL.getValue() > Debug.LEVEL2.getValue())
+				System.out.println("PC1[" + i + "]=" + index);
+			boolean bit = key.get(index - 1);
+			if (Encoder.LEVEL.getValue() > Debug.LEVEL2.getValue())
+				System.out.println("key[" + (index - 1) + "]="
+						+ key.get(index - 1));
 			permutedKey.set(i, bit);
-			if (Encoder.DEBUG)
-				System.out.println("permutedKey["+i+"]="+bit);
+			if (Encoder.LEVEL.getValue() > Debug.LEVEL2.getValue())
+				System.out.println("permutedKey[" + i + "]=" + bit);
 		}
-		if (Encoder.DEBUG) {
-			for (int i=0; i<permutedKey.length(); i++) {
-				if (permutedKey.get(i))
-					System.out.print(1);
-				else
-					System.out.print(0);
-				if (i%7==6)
-					System.out.print(" ");
-			}
-			System.out.println();
+		if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
+			System.out.println(permutedKey.getBitRepresentation(7));
 		}
 		return permutedKey;
+	}
+
+	/**
+	 * Potnij klucz na kawałki i przesuń w lewo 16 razy.
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public BitSet step2(BitSet key) {
+		BitSet C0 = key.get(0, (key.len()/2));
+//		BitSet D0 = key.subset(key.len() / 2, key.len());
+		
+//		int[] shiftSchedule = { 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1 };
+
+		BitSet C1 = C0.rotateLeft();
+		BitSet C2 = C1.rotateLeft();
+		BitSet C3 = C2.rotateLeft().rotateLeft();
+		BitSet C4 = C3.rotateLeft().rotateLeft();
+		BitSet C5 = C4.rotateLeft().rotateLeft();
+		BitSet C6 = C5.rotateLeft().rotateLeft();
+		BitSet C7 = C6.rotateLeft().rotateLeft();
+		BitSet C8 = C7.rotateLeft().rotateLeft();
+		BitSet C9 = C8.rotateLeft();
+		BitSet C10 = C9.rotateLeft().rotateLeft();
+		BitSet C11 = C10.rotateLeft().rotateLeft();
+		BitSet C12 = C11.rotateLeft().rotateLeft();
+		BitSet C13 = C12.rotateLeft().rotateLeft();
+		BitSet C14 = C13.rotateLeft().rotateLeft();
+		BitSet C15 = C14.rotateLeft().rotateLeft();
+		BitSet C16 = C15.rotateLeft();
+
+		if (LEVEL.getValue() > Debug.LEVEL2.getValue()) {
+			System.out.println("C00: " + C0.getBitRepresentation());
+			System.out.println("C01: " + C1.getBitRepresentation());
+			System.out.println("C02: " + C2.getBitRepresentation());
+			System.out.println("C03: " + C3.getBitRepresentation());
+			System.out.println("C04: " + C4.getBitRepresentation());
+			System.out.println("C05: " + C5.getBitRepresentation());
+			System.out.println("C06: " + C6.getBitRepresentation());
+			System.out.println("C07: " + C7.getBitRepresentation());
+			System.out.println("C08: " + C8.getBitRepresentation());
+			System.out.println("C09: " + C9.getBitRepresentation());
+			System.out.println("C10: " + C10.getBitRepresentation());
+			System.out.println("C11: " + C11.getBitRepresentation());
+			System.out.println("C12: " + C12.getBitRepresentation());
+			System.out.println("C13: " + C13.getBitRepresentation());
+			System.out.println("C14: " + C14.getBitRepresentation());
+			System.out.println("C15: " + C15.getBitRepresentation());
+			System.out.println("C16: " + C16.getBitRepresentation());
+		}
+
+		return null;
 	}
 }
