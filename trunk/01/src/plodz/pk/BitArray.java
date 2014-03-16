@@ -1,11 +1,6 @@
 package plodz.pk;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import des.BitSet;
-import des.Encoder;
 
 public class BitArray {
 
@@ -35,13 +30,6 @@ public class BitArray {
 		this.list = new ArrayList<>(size);
 		this.len = size;
 	}
-	
-//	public String getBitRepresentation(int n) {
-//		String plainBits;
-//		for (Bit bit : list) {
-//			if (bit)
-//		}
-//	}
 	
 	public String getBitRepresentation(int separator) {
 		String plainBits = "";
@@ -77,7 +65,6 @@ public class BitArray {
 	}
 	
 	public BitArray get(int from, int to) {
-//		ArrayList<Bit> bitArray = new ArrayList<>(to-from);
 		int size = to-from;
 		int currentIndex=0;
 		BitArray bitArray = new BitArray(size);
