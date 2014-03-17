@@ -1,5 +1,6 @@
 package plodz.pk;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class BitArray {
@@ -16,6 +17,10 @@ public class BitArray {
 			else
 				list.add(Bit.bit1);
 		}
+	}
+	
+	public BitArray(byte array) {
+		
 	}
 	
 	public ArrayList<Bit> getList() {
