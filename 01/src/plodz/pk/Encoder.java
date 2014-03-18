@@ -208,7 +208,7 @@ public class Encoder {
 		return f;
 	}
 
-	public BitArray[] step5(BitArray msg, BitArray[] keys) {
+	public BitArray step5(BitArray msg, BitArray[] keys) {
 		final byte[] pBlock = { 16, 7, 20, 21, 29, 12, 28, 17, 1, 15, 23, 26,
 				5, 18, 31, 10, 2, 8, 24, 14, 32, 27, 3, 9, 19, 13, 30, 6, 22,
 				11, 4, 25 };
@@ -217,6 +217,8 @@ public class Encoder {
 		
 		R[0] = msg.get(msg.len()/2, msg.len());
 		L[0] = msg.get(0, msg.len()/2);
+		
+//		WYOBRAŹ SOBIE ŻE TEN KOD PONIŻEJ ROBI TO SAMO CO TA PĘTLA	
 		
 //		BitArray f = getFunctionSOfB(R[0], keys[0]);
 //		f = permute(f, pBlock);
@@ -261,7 +263,25 @@ public class Encoder {
 						+ R[i].getBitRepresentation(4));
 			}
 		}
-		return R;
+		return concatenate(R[16], L[16]);
+	}
+	
+	public BitArray step6(BitArray msg) {
+		byte[] ipprim =
+			{	40,8,48,16,56,24,64,32,
+				39,7,47,15,55,23,63,31,
+				38,6,46,14,54,22,62,30,
+				37,5,45,13,53,21,61,29,
+				36,4,44,12,52,20,60,28,
+				35,3,43,11,51,19,59,27,
+				34,2,42,10,50,18,58,26,
+				33,1,41, 9,49,17,57,25	};
+		BitArray bitarray = permute(msg, ipprim);
+		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
+			System.out.println("Zakodowany blok: "
+					+ bitarray.getBitRepresentation(8));
+		}
+		return bitarray;
 	}
 
 	private BitArray getS(BitArray address, int box) {
@@ -340,7 +360,6 @@ public class Encoder {
 		return expandedR;
 	}
 	/**
-	 * EN Permute the key according to some pattern.
 	 * PL Pomieszaj bity.
 	 */
 	private BitArray permute(BitArray key, byte[] pattern) {
