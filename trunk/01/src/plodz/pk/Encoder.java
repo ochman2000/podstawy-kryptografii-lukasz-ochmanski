@@ -221,6 +221,12 @@ public class Encoder {
 				System.out.println("Permutacja P ("+i+"):\t"
 						+ bitarray[i].getBitRepresentation(4));
 			}
+			BitArray a = msg.get(0, msg.len()/2);
+			bitarray[i] = xor(a, bitarray[i]);
+			if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
+				System.out.println("Ln XOR f(Sn(bn)) ("+i+"):\t"
+						+ bitarray[i].getBitRepresentation(4));
+			}
 		}
 		return bitarray;
 	}
