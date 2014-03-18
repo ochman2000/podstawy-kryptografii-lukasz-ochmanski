@@ -189,7 +189,7 @@ public class Encoder {
 	private BitArray getFunctionSOfB(BitArray msg, BitArray key) {
 		
 		BitArray K1 = key;
-		BitArray R0 = msg.get(msg.len()/2, msg.len());
+		BitArray R0 = msg;
 		BitArray ER0 = expandR(R0);
 		BitArray xoredK1andER0 = xor(K1, ER0);
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL3.getValue()) {
@@ -212,23 +212,56 @@ public class Encoder {
 		final byte[] pBlock = { 16, 7, 20, 21, 29, 12, 28, 17, 1, 15, 23, 26,
 				5, 18, 31, 10, 2, 8, 24, 14, 32, 27, 3, 9, 19, 13, 30, 6, 22,
 				11, 4, 25 };
-		BitArray[] bitarray = new BitArray[keys.length];
+		BitArray[] R = new BitArray[keys.length+1];
+		BitArray[] L = new BitArray[keys.length+1];
+		
+		R[0] = msg.get(msg.len()/2, msg.len());
+		L[0] = msg.get(0, msg.len()/2);
+		
+//		BitArray f = getFunctionSOfB(R[0], keys[0]);
+//		f = permute(f, pBlock);
+//		L[1] = R[0];
+//		R[1] = xor(L[0], f);
+//		
+//		f = getFunctionSOfB(R[1], keys[1]);
+//		f = permute(f, pBlock);
+//		L[2]=R[1];
+//		R[2] = xor(L[1], f);
+//		
+//		f = getFunctionSOfB(R[2], keys[2]);
+//		f = permute(f, pBlock);
+//		L[3] = R[2];
+//		R[3] = xor(L[2], f);
+//		
+//		f = getFunctionSOfB(R[3], keys[3]);
+//		f = permute(f, pBlock);
+//		L[4] = R[3];
+//		R[4] = xor(L[3], f);
+		
 		for (int i=0; i<keys.length; i++) {
-			BitArray b = getFunctionSOfB(msg, keys[i]);
-			bitarray[i] = permute(b, pBlock);
+			BitArray f = getFunctionSOfB(R[i], keys[i]);
+			f = permute(f, pBlock);
+			L[i+1] = R[i];
+			R[i+1] = xor(L[i], f);
 			
-			if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
+			if (Encoder.LEVEL.getValue() > Debug.LEVEL2.getValue()) {
 				System.out.println("Permutacja P ("+i+"):\t"
-						+ bitarray[i].getBitRepresentation(4));
-			}
-			BitArray a = msg.get(0, msg.len()/2);
-			bitarray[i] = xor(a, bitarray[i]);
-			if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
+						+ f.getBitRepresentation(4));
 				System.out.println("Ln XOR f(Sn(bn)) ("+i+"):\t"
-						+ bitarray[i].getBitRepresentation(4));
+						+ R[i].getBitRepresentation(4));
 			}
 		}
-		return bitarray;
+		
+		for (int i=0; i<R.length; i++) {
+			
+			if (Encoder.LEVEL.getValue() > Debug.LEVEL2.getValue()) {
+				System.out.println("L["+i+"]:\t"
+						+ L[i].getBitRepresentation(4));
+				System.out.println("R["+i+"]:\t"
+						+ R[i].getBitRepresentation(4));
+			}
+		}
+		return R;
 	}
 
 	private BitArray getS(BitArray address, int box) {
