@@ -24,6 +24,6 @@ public class Driver {
 		
 		BitArray msg = new BitArray(mBits);
 		msg = encoder.step4(msg);
-		msg = encoder.step5(msg, keys);
+		BitArray[] msgs = encoder.step5(msg, keys);
 	}
 }

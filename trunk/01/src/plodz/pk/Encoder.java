@@ -4,7 +4,7 @@ import java.math.BigInteger;
 
 public class Encoder {
 
-	public static Debug LEVEL = Debug.LEVEL4;
+	public static Debug LEVEL = Debug.LEVEL3;
 
 	public Encoder() {
 	}
@@ -176,7 +176,7 @@ public class Encoder {
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL2.getValue()) {
 			System.out.println("64-bitowa wiadomość: "
 					+ msg.getBitRepresentation(8));
-			System.out.println("Następuje permutacja klucza...");
+			System.out.println("Następuje permutacja wiadomości...");
 		}
 		BitArray permutedMsg = permute(msg, IP);
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
@@ -186,13 +186,13 @@ public class Encoder {
 		return permutedMsg;
 	}
 	
-	public BitArray step5(BitArray msg, BitArray[] keys) {
+	private BitArray getFunctionSOfB(BitArray msg, BitArray key) {
 		
-		BitArray K1 = keys[0];
+		BitArray K1 = key;
 		BitArray R0 = msg.get(msg.len()/2, msg.len());
 		BitArray ER0 = expandR(R0);
 		BitArray xoredK1andER0 = xor(K1, ER0);
-		if (Encoder.LEVEL.getValue() > Debug.LEVEL2.getValue()) {
+		if (Encoder.LEVEL.getValue() > Debug.LEVEL3.getValue()) {
 			System.out.println("funkcja F: "
 					+ xoredK1andER0.getBitRepresentation(6));
 		}
@@ -202,13 +202,29 @@ public class Encoder {
 			f = concatenate(f, temp);
 		}
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL3.getValue()) {
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			System.out.println("Poklejone S(B): "
 					+ f.getBitRepresentation(4));
 		}
-		return msg;
+		return f;
 	}
-	
+
+	public BitArray[] step5(BitArray msg, BitArray[] keys) {
+		final byte[] pBlock = { 16, 7, 20, 21, 29, 12, 28, 17, 1, 15, 23, 26,
+				5, 18, 31, 10, 2, 8, 24, 14, 32, 27, 3, 9, 19, 13, 30, 6, 22,
+				11, 4, 25 };
+		BitArray[] bitarray = new BitArray[keys.length];
+		for (int i=0; i<keys.length; i++) {
+			BitArray b = getFunctionSOfB(msg, keys[i]);
+			bitarray[i] = permute(b, pBlock);
+			
+			if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
+				System.out.println("Permutacja P ("+i+"):\t"
+						+ bitarray[i].getBitRepresentation(4));
+			}
+		}
+		return bitarray;
+	}
+
 	private BitArray getS(BitArray address, int box) {
 		byte[] sBox = 
 	        {
