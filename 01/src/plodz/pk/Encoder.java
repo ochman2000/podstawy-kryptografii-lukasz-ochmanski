@@ -4,7 +4,7 @@ import java.math.BigInteger;
 
 public class Encoder {
 
-	public static Debug LEVEL = Debug.LEVEL3;
+	public static Debug LEVEL = Debug.LEVEL4;
 
 	public Encoder() {
 	}
@@ -196,9 +196,16 @@ public class Encoder {
 			System.out.println("funkcja F: "
 					+ xoredK1andER0.getBitRepresentation(6));
 		}
-		BitArray f = getS(xoredK1andER0.get(0, 6), 0);
-		System.out.println(f.getBitRepresentation());
-		
+		BitArray f = null;
+		for (int m=0, j=0; j<8; m+=6, j++) {
+			BitArray temp = getS(xoredK1andER0.get(m, m+6), j);
+			f = concatenate(f, temp);
+		}
+		if (Encoder.LEVEL.getValue() > Debug.LEVEL3.getValue()) {
+			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			System.out.println("Poklejone S(B): "
+					+ f.getBitRepresentation(4));
+		}
 		return msg;
 	}
 	
@@ -247,17 +254,13 @@ public class Encoder {
 				+ address.get(4).getValue()*1;
 		byte value = sBox[(box*64)+(row*16)+(column)];
 		for (int i=0; i<4; i++) {
-			bitarray.set(i, getBitAt(value, i));
+			bitarray.set(i, getBitAt(value, 3-i));
 		}
 		return bitarray;
 	}
 	
    public static Bit getBitAt(byte data, int poz) 
    {
-//        int posByte = poz / 8;                                  
-//        int posBit = poz % 8;                                  
-//        byte valByte = data[posByte];                        
-//        int valInt = data >> (7 - posBit) & 1;
 		int valInt = (data >> poz) & 1;
 		if (valInt==0)
 			return Bit.bit0;
@@ -303,6 +306,12 @@ public class Encoder {
 	}
 
 	private BitArray concatenate(BitArray a, BitArray b) {
+		if (a==null && b==null)
+			return null;
+		if (a==null)
+			return b;
+		if (b==null)
+			return a;
 		BitArray c = new BitArray(a.len() + b.len());
 		for (int i = 0; i < a.len(); i++) {
 			c.set(i, a.get(i));
