@@ -1,5 +1,7 @@
 package pl.lodz.p.pk;
 
+import pl.lodz.p.tewi.Auxx;
+
 
 public class Encoder {
 
@@ -7,13 +9,42 @@ public class Encoder {
 
 	public Encoder() {
 	}
+	
+	public String encrypt(String klucz, String plainTekst) {
+		//ŻEBY UNIKNĄĆ PROBLEMÓW ROBIĘ RIGHT PAD
+		if (plainTekst.length()%8!=0) {
+			int le = plainTekst.length()/8*8+8;
+			String spacje = "        ,";
+			plainTekst = (plainTekst+spacje).substring(0, le);
+		}
+		
+		//A KEY
+		String kHex = klucz;
+		byte[] kBytes = Auxx.hexToBytes(kHex);
+		BitArray key = new BitArray(kBytes);
+		System.out.println("K: "+key.getBitRepresentation(8));
+		
+		//A MESSAGE
+		byte[] msg = plainTekst.getBytes();
+		BitArray tekst = new BitArray(msg);
+		System.out.println("M: "+tekst.getBitRepresentation(8));
+		
+		Encoder encoder = new Encoder();
+		
+		int blok = tekst.len()/64*64;
+		String kryptogram="";
+		for (int i=0; i<blok; i+=64) {
+			kryptogram+=encoder.encodeBlock(key, tekst.get(i, i+64)).getHexRepresentation();
+		}		
+		return kryptogram;
+	}
 
 	/**
 	 * Koduje 64 bitowy blok danych.
-	 * @param klucz w formacie szesnastkowym.
-	 * @param message w formacie szesnastkowym.
+	 * @param klucz w postaci obiektu BitArray.
+	 * @param message w postaci obiektu BitArray.
 	 */
-	public BitArray encodeBlock(BitArray klucz, BitArray message) {
+	private BitArray encodeBlock(BitArray klucz, BitArray message) {
 
 		BitArray key = klucz;
 		key = this.step1(key);
