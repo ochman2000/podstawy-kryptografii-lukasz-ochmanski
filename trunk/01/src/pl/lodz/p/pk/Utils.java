@@ -10,5 +10,12 @@ public class Utils {
 			return Bit.bit1;
 	}
 
-	
+	public static BitArray[] reverse(BitArray[] array) {
+		for (int i = 0; i < array.length; i++) {
+			BitArray bitArray = array[i];
+			array[i]=array[array.length-i-1];
+			array[array.length-i-1]=bitArray;
+		}
+		return array;
+	}
 }
