@@ -1,6 +1,10 @@
 package pl.lodz.p.pk;
 
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.util.ArrayList;
+
+import pl.lodz.p.tewi.Auxx;
 
 public class BitArray {
 
@@ -13,8 +17,10 @@ public class BitArray {
 		for (int i : array) {
 			if (i==0)
 				list.add(Bit.bit0);
-			else
+			else if (i==1)
 				list.add(Bit.bit1);
+			else
+				throw new NumberFormatException();
 		}
 	}
 	
@@ -81,6 +87,19 @@ public class BitArray {
 	
 	public String getBitRepresentation() {
 		return getBitRepresentation(Integer.MAX_VALUE);
+	}
+	
+	public String getHexRepresentation() {
+		String output = "";
+		int h=0;
+		for (int i=0; i<this.len(); i+=4) {
+			h = this.get(i).getValue()*8+
+			this.get(i+1).getValue()*4+
+			this.get(i+2).getValue()*2+
+			this.get(i+3).getValue()*1;
+			output+=Integer.toHexString(h);
+		}
+		return output.toUpperCase();
 	}
 	
 	public Bit get(int index) {
