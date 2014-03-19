@@ -1,10 +1,6 @@
 package pl.lodz.p.pk;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
 import java.util.ArrayList;
-
-import pl.lodz.p.tewi.Auxx;
 
 public class BitArray {
 
