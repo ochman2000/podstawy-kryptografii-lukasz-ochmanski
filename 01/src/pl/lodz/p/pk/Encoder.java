@@ -13,28 +13,19 @@ public class Encoder {
 	 * @param klucz w formacie szesnastkowym.
 	 * @param message w formacie szesnastkowym.
 	 */
-	public void encodeBlock(BitArray klucz, BitArray message) {
-		//ENCODING A KEY
-		String kHex = "133457799BBCDFF1";
-		int[] kBits = {
-				0,0,0,1,0,0,1,1,	0,0,1,1,0,1,0,0,	0,1,0,1,0,1,1,1,	0,1,1,1,1,0,0,1,
-				1,0,0,1,1,0,1,1,	1,0,1,1,1,1,0,0,	1,1,0,1,1,1,1,1,	1,1,1,1,0,0,0,1};
-		
-		BitArray key = new BitArray(kBits);
+	public BitArray encodeBlock(BitArray klucz, BitArray message) {
+
+		BitArray key = klucz;
 		key = this.step1(key);
 		BitArray[] keys = this.step2(key);
 		keys = this.step3(keys);
 		
-		//ENCODING A MESSAGE
-		String mHex = "0123456789ABCDEF";
-		int[] mBits = {
-				0,0,0,0,0,0,0,1,	0,0,1,0,0,0,1,1,	0,1,0,0,0,1,0,1,	0,1,1,0,0,1,1,1,
-				1,0,0,0,1,0,0,1,	1,0,1,0,1,0,1,1,	1,1,0,0,1,1,0,1,	1,1,1,0,1,1,1,1};
-		
-		BitArray msg = new BitArray(mBits);
+		BitArray msg = message;
 		msg = this.step4(msg);
 		msg = this.step5(msg, keys);
 		msg = this.step6(msg);
+		
+		return msg;
 	}
 
 	/**

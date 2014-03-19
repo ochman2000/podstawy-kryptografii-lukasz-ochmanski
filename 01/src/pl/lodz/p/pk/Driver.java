@@ -17,16 +17,18 @@ public class Driver {
 				0,0,0,0,0,0,0,1,	0,0,1,0,0,0,1,1,	0,1,0,0,0,1,0,1,	0,1,1,0,0,1,1,1,
 				1,0,0,0,1,0,0,1,	1,0,1,0,1,0,1,1,	1,1,0,0,1,1,0,1,	1,1,1,0,1,1,1,1};
 		
-		byte[] key = Auxx.hexToBytes(mHex);
-		BitArray klucz = new BitArray(key);
-		System.out.println("K: "+klucz.getBitRepresentation(8));
+		BitArray key = new BitArray(kBits);
+		System.out.println("K: "+key.getBitRepresentation(8));
 		
-		byte[] msg = Auxx.hexToBytes(mHex);
+//		byte[] msg = Auxx.hexToBytes(mHex);
+		byte[] msg = "AAAAAAAA".getBytes();
 		BitArray tekst = new BitArray(msg);
 		System.out.println("M: "+tekst.getBitRepresentation(8));
 		
 		Encoder encoder = new Encoder();
-		encoder.encodeBlock(klucz, tekst);
+		tekst = encoder.encodeBlock(key, tekst);
+		System.out.println(tekst.getHexRepresentation());
+		
 	}
 	
 }
