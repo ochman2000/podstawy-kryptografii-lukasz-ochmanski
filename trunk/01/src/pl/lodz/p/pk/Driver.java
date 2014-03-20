@@ -14,8 +14,9 @@ public class Driver {
 
 		
 		Encoder encoder = new Encoder();
-		tekst = encoder.encrypt(key, tekst);
+		String szyfr = encoder.encrypt(key, tekst);
 		
+		tekst = encoder.decrypt(key, szyfr);
 		
 	}
 	
