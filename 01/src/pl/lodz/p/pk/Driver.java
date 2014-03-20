@@ -1,6 +1,7 @@
 package pl.lodz.p.pk;
 
 
+
 public class Driver {
 	
 	public static void main(String[] args) {
@@ -14,6 +15,7 @@ public class Driver {
 		
 		Encoder encoder = new Encoder();
 		tekst = encoder.encrypt(key, tekst);
+		
 		
 	}
 	
