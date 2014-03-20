@@ -3,6 +3,7 @@ package pl.lodz.p.pk;
 import java.util.Arrays;
 
 import pl.lodz.p.tewi.Auxx;
+import pl.lodz.p.tewi.DES;
 
 
 public class Encoder {
@@ -62,14 +63,14 @@ public class Encoder {
 		//A MESSAGE
 		int newLength = data.length/8*8+8;
 		byte[] msg = Arrays.copyOf(data, newLength);
-		BitArray tekst = new BitArray(msg);
+		BitArray dane = new BitArray(msg);
 		
 		Encoder encoder = new Encoder();
 		
-		int blok = tekst.len()/64*64;
+		int blok = dane.len()/64*64;
 		String kryptogram="";
 		for (int i=0; i<blok; i+=64) {
-			kryptogram+=encoder.encodeBlock(key, tekst.get(i, i+64)).getHexRepresentation();
+			kryptogram+=encoder.encodeBlock(key, dane.get(i, i+64)).getHexRepresentation();
 		}		
 		return kryptogram;
 	}
@@ -121,7 +122,7 @@ public class Encoder {
 		int blok = tekst.len()/64*64;
 		String kryptogram="";
 		for (int i=0; i<blok; i+=64) {
-			kryptogram+=encoder.encodeBlock(key, tekst.get(i, i+64)).getHexRepresentation();
+			kryptogram+=encoder.decodeBlock(key, tekst.get(i, i+64)).getHexRepresentation();
 			if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
 				System.out.println("Odkodowany blok nr "+((i/64)+1)+": "
 						+ kryptogram);
@@ -167,10 +168,9 @@ public class Encoder {
 		msg = this.step4(msg);
 		msg = this.step5(msg, Utils.reverse(Arrays.copyOf(keys, 16)));
 		msg = this.step6(msg);
-		
+		msg = this.step7(szyfr, klucz);
 		return msg;
 	}
-	
 	
 
 	/**
@@ -442,6 +442,18 @@ public class Encoder {
 					+ bitarray.getBitRepresentation(8));
 		}
 		return bitarray;
+	}
+	
+	private BitArray step7(BitArray msg, BitArray klucz) {
+		byte[] b = msg.toByteArray();
+		DES des = new DES();
+		try {
+			des.setKeyHex(klucz.getHexRepresentation());
+		} catch (pl.lodz.p.tewi.DES.DESKeyException e) {
+			e.printStackTrace();
+		}
+		BitArray c = new BitArray(des.decode(b));
+		return c;
 	}
 
 	private BitArray getS(BitArray address, int box) {
