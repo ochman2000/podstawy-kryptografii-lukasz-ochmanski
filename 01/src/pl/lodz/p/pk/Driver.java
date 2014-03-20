@@ -9,7 +9,7 @@ public class Driver {
 		String key = "133457799BBCDFF1";
 		
 		//A MESSAGE
-		String tekst = "A";
+		String tekst = "AAAAA";
 
 		
 		Encoder encoder = new Encoder();

@@ -1,5 +1,7 @@
 package pl.lodz.p.pk;
 
+import java.util.Arrays;
+
 import pl.lodz.p.tewi.Auxx;
 
 
@@ -11,11 +13,11 @@ public class Encoder {
 	}
 	
 	public String encrypt(String klucz, String plainTekst) {
-		//ŻEBY UNIKNĄĆ PROBLEMÓW ROBIĘ RIGHT PAD
-		if (plainTekst.length()%8!=0) {
-			int le = plainTekst.length()/8*8+8;
-			String spacje = "        ,";
-			plainTekst = (plainTekst+spacje).substring(0, le);
+		//ŻEBY UNIKNĄĆ PROBLEMÓW ROBIĘ RIGHT PAD DLA TEKSTU
+		byte[] msg = plainTekst.getBytes();
+		if (msg.length%8!=0) {
+			int newLength = msg.length/8*8+8;
+			msg = Arrays.copyOf(msg, newLength);
 		}
 		
 		//A KEY
@@ -25,7 +27,6 @@ public class Encoder {
 		System.out.println("K: "+key.getBitRepresentation(8));
 		
 		//A MESSAGE
-		byte[] msg = plainTekst.getBytes();
 		BitArray tekst = new BitArray(msg);
 		System.out.println("M: "+tekst.getBitRepresentation(8));
 		
