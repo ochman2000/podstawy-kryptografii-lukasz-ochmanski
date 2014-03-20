@@ -10,13 +10,14 @@ public class Driver {
 		String key = "133457799BBCDFF1";
 		
 		//A MESSAGE
-		String tekst = "0123456789ABCDEF";
+		String tekst = "01234567";
 
 		
 		Encoder encoder = new Encoder();
 		String szyfr = encoder.encrypt(key, tekst);
 		
 		tekst = encoder.decrypt(key, szyfr);
+		System.out.println(tekst);
 		
 	}
 	

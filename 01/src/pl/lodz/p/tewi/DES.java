@@ -1,7 +1,7 @@
 package pl.lodz.p.tewi;
 import java.lang.*;
 public class DES 
-{   class DESKeyException extends Exception
+{   public class DESKeyException extends Exception
     {public DESKeyException(String msg){super(msg);};
     }
     

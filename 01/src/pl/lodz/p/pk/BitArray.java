@@ -2,6 +2,8 @@ package pl.lodz.p.pk;
 
 import java.util.ArrayList;
 
+import pl.lodz.p.tewi.Auxx;
+
 public class BitArray {
 
 	ArrayList<Bit> list;
@@ -24,7 +26,7 @@ public class BitArray {
 		list = new ArrayList<Bit>(8);
 		this.len = 8;
 		for (int i=0; i<8; i++) {
-			if (Utils.getBitAt(bajt, i).getValue()==0)
+			if (Utils.getBitAt(bajt, 7-i).getValue()==0)
 				list.add(Bit.bit0);
 			else
 				list.add(Bit.bit1);
@@ -96,6 +98,10 @@ public class BitArray {
 			output+=Integer.toHexString(h);
 		}
 		return output.toUpperCase();
+	}
+	
+	public byte[] toByteArray() {
+		return Auxx.hexToBytes(this.getHexRepresentation());
 	}
 	
 	public Bit get(int index) {
