@@ -20,15 +20,49 @@ public class Encoder {
 			msg = Arrays.copyOf(msg, newLength);
 		}
 		
+		//A MESSAGE
+		BitArray tekst = new BitArray(msg);
+		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
+			System.out.println("M: "+plainTekst);
+		}
+		
 		//A KEY
 		String kHex = klucz;
 		byte[] kBytes = Auxx.hexToBytes(kHex);
 		BitArray key = new BitArray(kBytes);
-		System.out.println("K: "+key.getBitRepresentation(8));
+		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
+			System.out.println("K: "+klucz);
+			System.out.println();
+		}
+		
+		Encoder encoder = new Encoder();
+		
+		int blok = tekst.len()/64*64;
+		String kryptogram="";
+		for (int i=0; i<blok; i+=64) {
+			kryptogram+=encoder.encodeBlock(key, tekst.get(i, i+64)).getHexRepresentation();
+			if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
+				System.out.println("Zakodowany blok nr "+((i/64)+1)+": "
+						+ kryptogram);
+			}
+		}
+		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
+			System.out.println("Zakodowana wiadomość: "+ kryptogram);
+		}
+		return kryptogram;
+	}
+	
+	public String encrypt(String klucz, byte[] data) {
+
+		//A KEY
+		String kHex = klucz;
+		byte[] kBytes = Auxx.hexToBytes(kHex);
+		BitArray key = new BitArray(kBytes);
 		
 		//A MESSAGE
+		int newLength = data.length/8*8+8;
+		byte[] msg = Arrays.copyOf(data, newLength);
 		BitArray tekst = new BitArray(msg);
-		System.out.println("M: "+tekst.getBitRepresentation(8));
 		
 		Encoder encoder = new Encoder();
 		
@@ -193,14 +227,14 @@ public class Encoder {
 
 		for (int i = 0; i < keys.length; i++) {
 			BitArray key = keys[i];
-			if (Encoder.LEVEL.getValue() > Debug.LEVEL2.getValue()) {
+			if (Encoder.LEVEL.getValue() > Debug.LEVEL3.getValue()) {
 				System.out.println("56-bitowy klucz: "
 						+ key.getBitRepresentation(7));
 				System.out.println("Następuje permutacja klucza nr: "+(i+1)+" ...");
 			}
 			permutedKeys[i] = permute(key, PC2);
 
-			if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
+			if (Encoder.LEVEL.getValue() > Debug.LEVEL2.getValue()) {
 				System.out.println("48-bitowy klucz: "
 						+ permutedKeys[i].getBitRepresentation(6));
 			}
@@ -324,7 +358,7 @@ public class Encoder {
 				34,2,42,10,50,18,58,26,
 				33,1,41, 9,49,17,57,25	};
 		BitArray bitarray = permute(msg, ipprim);
-		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
+		if (Encoder.LEVEL.getValue() > Debug.LEVEL3.getValue()) {
 			System.out.println("Zakodowany blok: "
 					+ bitarray.getBitRepresentation(8));
 		}
