@@ -93,6 +93,85 @@ public class Encoder {
 		
 		return msg;
 	}
+	
+	public String decrypt(String klucz, String plainTekst) {
+		//ŻEBY UNIKNĄĆ PROBLEMÓW ROBIĘ RIGHT PAD DLA TEKSTU
+		byte[] msg = plainTekst.getBytes();
+		if (msg.length%8!=0) {
+			int newLength = msg.length/8*8+8;
+			msg = Arrays.copyOf(msg, newLength);
+		}
+		
+		//A MESSAGE
+		BitArray tekst = new BitArray(msg);
+		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
+			System.out.println("M: "+plainTekst);
+		}
+		
+		//A KEY
+		String kHex = klucz;
+		byte[] kBytes = Auxx.hexToBytes(kHex);
+		BitArray key = new BitArray(kBytes);
+		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
+			System.out.println("K: "+klucz);
+			System.out.println();
+		}
+		
+		Encoder encoder = new Encoder();
+		
+		int blok = tekst.len()/64*64;
+		String kryptogram="";
+		for (int i=0; i<blok; i+=64) {
+			kryptogram+=encoder.encodeBlock(key, tekst.get(i, i+64)).getHexRepresentation();
+			if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
+				System.out.println("Zakodowany blok nr "+((i/64)+1)+": "
+						+ kryptogram);
+			}
+		}
+		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
+			System.out.println("Zakodowana wiadomość: "+ kryptogram);
+		}
+		return kryptogram;
+	}
+	
+	public String decrypt(String klucz, byte[] data) {
+
+		//A KEY
+		String kHex = klucz;
+		byte[] kBytes = Auxx.hexToBytes(kHex);
+		BitArray key = new BitArray(kBytes);
+		
+		//A MESSAGE
+		int newLength = data.length/8*8+8;
+		byte[] msg = Arrays.copyOf(data, newLength);
+		BitArray tekst = new BitArray(msg);
+		
+		Encoder encoder = new Encoder();
+		
+		int blok = tekst.len()/64*64;
+		String kryptogram="";
+		for (int i=0; i<blok; i+=64) {
+			kryptogram+=encoder.decodeBlock(key, tekst.get(i, i+64)).getHexRepresentation();
+		}		
+		return kryptogram;
+	}
+	
+	private BitArray decodeBlock(BitArray klucz, BitArray message) {
+
+		BitArray key = klucz;
+		key = this.step1(key);
+		BitArray[] keys = this.step2(key);
+		keys = this.step3(keys);
+		
+		BitArray msg = message;
+		msg = this.step4(msg);
+		msg = this.step5(msg, Utils.reverse(Arrays.copyOf(keys, 16)));
+		msg = this.step6(msg);
+		
+		return msg;
+	}
+	
+	
 
 	/**
 	 * EN Permute the key according to some pattern given in PC1. PL Pomieszaj
