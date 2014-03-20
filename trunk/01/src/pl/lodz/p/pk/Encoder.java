@@ -7,7 +7,7 @@ import pl.lodz.p.tewi.Auxx;
 
 public class Encoder {
 
-	public static Debug LEVEL = Debug.LEVEL2;
+	public static Debug LEVEL = Debug.LEVEL1;
 
 	public Encoder() {
 	}
@@ -79,7 +79,7 @@ public class Encoder {
 	 * @param klucz w postaci obiektu BitArray.
 	 * @param message w postaci obiektu BitArray.
 	 */
-	private BitArray encodeBlock(BitArray klucz, BitArray message) {
+	public BitArray encodeBlock(BitArray klucz, BitArray message) {
 
 		BitArray key = klucz;
 		key = this.step1(key);
@@ -152,18 +152,18 @@ public class Encoder {
 		String kryptogram="";
 		for (int i=0; i<blok; i+=64) {
 			kryptogram+=encoder.decodeBlock(key, tekst.get(i, i+64)).getHexRepresentation();
-		}		
+		}
 		return kryptogram;
 	}
 	
-	private BitArray decodeBlock(BitArray klucz, BitArray message) {
+	private BitArray decodeBlock(BitArray klucz, BitArray szyfr) {
 
 		BitArray key = klucz;
 		key = this.step1(key);
 		BitArray[] keys = this.step2(key);
 		keys = this.step3(keys);
 		
-		BitArray msg = message;
+		BitArray msg = szyfr;
 		msg = this.step4(msg);
 		msg = this.step5(msg, Utils.reverse(Arrays.copyOf(keys, 16)));
 		msg = this.step6(msg);
