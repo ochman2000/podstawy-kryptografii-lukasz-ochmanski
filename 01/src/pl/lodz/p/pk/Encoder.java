@@ -32,7 +32,6 @@ public class Encoder {
 		BitArray key = new BitArray(kBytes);
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
 			System.out.println("K: "+klucz);
-			System.out.println();
 		}
 		
 		Encoder encoder = new Encoder();
@@ -48,6 +47,7 @@ public class Encoder {
 		}
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
 			System.out.println("Zakodowana wiadomość: "+ kryptogram);
+			System.out.println();
 		}
 		return kryptogram;
 	}
@@ -114,7 +114,6 @@ public class Encoder {
 		BitArray key = new BitArray(kBytes);
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
 			System.out.println("K: "+klucz);
-			System.out.println();
 		}
 		
 		Encoder encoder = new Encoder();
@@ -124,12 +123,13 @@ public class Encoder {
 		for (int i=0; i<blok; i+=64) {
 			kryptogram+=encoder.encodeBlock(key, tekst.get(i, i+64)).getHexRepresentation();
 			if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
-				System.out.println("Zakodowany blok nr "+((i/64)+1)+": "
+				System.out.println("Odkodowany blok nr "+((i/64)+1)+": "
 						+ kryptogram);
 			}
 		}
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
-			System.out.println("Zakodowana wiadomość: "+ kryptogram);
+			System.out.println("Odkodowana wiadomość: "+ kryptogram);
+			System.out.println();
 		}
 		return kryptogram;
 	}
