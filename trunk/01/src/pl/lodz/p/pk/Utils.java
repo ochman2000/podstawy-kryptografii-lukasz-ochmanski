@@ -18,4 +18,19 @@ public class Utils {
 		}
 		return array;
 	}
+	
+	public static byte[] concat(byte[] A, byte[] B) {
+		if (A==null){
+			return B;
+		}
+		else if (B==null) {
+			return A;
+		}
+		   int aLen = A.length;
+		   int bLen = B.length;
+		   byte[] C= new byte[aLen+bLen];
+		   System.arraycopy(A, 0, C, 0, aLen);
+		   System.arraycopy(B, 0, C, aLen, bLen);
+		   return C;
+		}
 }

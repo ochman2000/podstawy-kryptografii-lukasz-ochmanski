@@ -53,7 +53,7 @@ public class Encoder {
 		return kryptogram;
 	}
 	
-	public String encrypt(String klucz, byte[] data) {
+	public byte[] encrypt(String klucz, byte[] data) {
 
 		//A KEY
 		String kHex = klucz;
@@ -68,9 +68,10 @@ public class Encoder {
 		Encoder encoder = new Encoder();
 		
 		int blok = dane.len()/64*64;
-		String kryptogram="";
+		byte[] kryptogram= null;
 		for (int i=0; i<blok; i+=64) {
-			kryptogram+=encoder.encodeBlock(key, dane.get(i, i+64)).getHexRepresentation();
+			byte[] temp = encoder.encodeBlock(key, dane.get(i, i+64)).toByteArray();
+			kryptogram = Utils.concat(kryptogram, temp);
 		}		
 		return kryptogram;
 	}
@@ -145,7 +146,7 @@ public class Encoder {
 		return kryptogram;
 	}
 	
-	public String decrypt(String klucz, byte[] data) {
+	public byte[] decrypt(String klucz, byte[] data) {
 
 		//A KEY
 		String kHex = klucz;
@@ -155,16 +156,17 @@ public class Encoder {
 		//A MESSAGE
 		int newLength = data.length/8*8+8;
 		byte[] msg = Arrays.copyOf(data, newLength);
-		BitArray tekst = new BitArray(msg);
+		BitArray dane = new BitArray(msg);
 		
 		Encoder encoder = new Encoder();
 		
-		int blok = tekst.len()/64*64;
-		String kryptogram="";
+		int blok = dane.len()/64*64;
+		byte[] raw= null;
 		for (int i=0; i<blok; i+=64) {
-			kryptogram+=encoder.decodeBlock(key, tekst.get(i, i+64)).getHexRepresentation();
-		}
-		return kryptogram;
+			byte[] temp = encoder.decodeBlock(key, dane.get(i, i+64)).toByteArray();
+			raw = Utils.concat(raw, temp);
+		}		
+		return raw;
 	}
 	
 	private BitArray decodeBlock(BitArray klucz, BitArray szyfr) {
