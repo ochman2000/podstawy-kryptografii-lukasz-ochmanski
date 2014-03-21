@@ -72,7 +72,14 @@ public class Encoder {
 		for (int i=0; i<blok; i+=64) {
 			byte[] temp = encoder.encodeBlock(key, dane.get(i, i+64)).toByteArray();
 			kryptogram = Utils.concat(kryptogram, temp);
-		}		
+		}
+		DES des = new DES();
+		try {
+			des.setKeyHex(klucz);
+		} catch (DESKeyException e) {
+			e.printStackTrace();
+		}
+		kryptogram = des.encode(data);
 		return kryptogram;
 	}
 

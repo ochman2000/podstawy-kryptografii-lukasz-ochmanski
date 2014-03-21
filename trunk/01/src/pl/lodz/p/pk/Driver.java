@@ -2,6 +2,10 @@ package pl.lodz.p.pk;
 
 import java.util.Arrays;
 
+import pl.lodz.p.tewi.Auxx;
+import pl.lodz.p.tewi.DES;
+import pl.lodz.p.tewi.DES.DESKeyException;
+
 
 
 public class Driver {
@@ -21,7 +25,18 @@ public class Driver {
 		
 		byte[] data = tekst.getBytes();
 		byte[] szyfr = encoder.encrypt(key, data);
+		System.out.println("Moja metoda:");
 		System.out.println(Arrays.toString(szyfr));
 		
+		DES des = new DES();
+		try {
+			des.setKeyHex(key);
+		} catch (DESKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		szyfr = des.encode(data);
+		System.out.println("Tewi:");
+		System.out.println(Arrays.toString(szyfr));	
 	}
 }
