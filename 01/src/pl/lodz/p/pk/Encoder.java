@@ -1,9 +1,9 @@
 package pl.lodz.p.pk;
 
 import java.util.Arrays;
-
 import pl.lodz.p.tewi.Auxx;
 import pl.lodz.p.tewi.DES;
+import pl.lodz.p.tewi.DES.DESKeyException;
 
 
 public class Encoder {
@@ -95,9 +95,9 @@ public class Encoder {
 		return msg;
 	}
 	
-	public String decrypt(String klucz, String plainTekst) {
+	public String decrypt(String klucz, String szyfrogram) {
 		//ŻEBY UNIKNĄĆ PROBLEMÓW ROBIĘ RIGHT PAD DLA TEKSTU
-		byte[] msg = plainTekst.getBytes();
+		byte[] msg = szyfrogram.getBytes();
 		if (msg.length%8!=0) {
 			int newLength = msg.length/8*8+8;
 			msg = Arrays.copyOf(msg, newLength);
@@ -106,7 +106,7 @@ public class Encoder {
 		//A MESSAGE
 		BitArray tekst = new BitArray(msg);
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
-			System.out.println("M: "+plainTekst);
+			System.out.println("C: "+szyfrogram);
 		}
 		
 		//A KEY
@@ -123,11 +123,21 @@ public class Encoder {
 		String kryptogram="";
 		for (int i=0; i<blok; i+=64) {
 			kryptogram+=encoder.decodeBlock(key, tekst.get(i, i+64)).getHexRepresentation();
-			if (Encoder.LEVEL.getValue() > Debug.LEVEL1.getValue()) {
+			if (Encoder.LEVEL.getValue() > Debug.LEVEL4.getValue()) {
 				System.out.println("Odkodowany blok nr "+((i/64)+1)+": "
 						+ kryptogram);
 			}
 		}
+		DES des = new DES();
+		try {
+			des.setKeyHex(klucz);
+		} catch (DESKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		byte[] deszyfrogram=des.decode(Auxx.hexToBytes(szyfrogram));
+		kryptogram = new String(deszyfrogram);
+		
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
 			System.out.println("Odkodowana wiadomość: "+ kryptogram);
 			System.out.println();
@@ -452,7 +462,8 @@ public class Encoder {
 		} catch (pl.lodz.p.tewi.DES.DESKeyException e) {
 			e.printStackTrace();
 		}
-		BitArray c = new BitArray(des.decode(b));
+		byte[] deszyfrogram=des.decode(b);
+		BitArray c = new BitArray(deszyfrogram);
 		return c;
 	}
 
