@@ -20,6 +20,7 @@ public class PlikDecrypter extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField area2;
 	private JTextField area1;
+	private JLabel url;
 
 	public PlikDecrypter() {
 		super("Odszyfrowanie pliku");
@@ -30,11 +31,11 @@ public class PlikDecrypter extends JFrame {
 		this.initGUI();
 	}
 	
-private void initGUI() {
+	private void initGUI() {
 		
 		JLabel tytul = new JLabel("Wybierz ścieżkę URL");
 		tytul.setLayout(null);
-		tytul.setLocation(100, 00);
+		tytul.setLocation(100, 0);
 		tytul.setSize(200,100);
 		tytul.setVisible(true);
 		this.add(tytul);
@@ -69,6 +70,13 @@ private void initGUI() {
 		a.addActionListener(zh);
 		this.add(a);
 		
+		url = new JLabel("");
+		url.setLayout(null);
+		url.setLocation(50, 160);
+		url.setSize(200,100);
+		url.setVisible(true);
+		this.add(url);
+		
 	}
 
 	private class WybierzHandler implements ActionListener {
@@ -83,12 +91,10 @@ private void initGUI() {
 			}
 			PlikDecrypter.this.area2.setText(nazwa_pliku);			
 		}
-		
 	}
 
 	private class OdkodujHandler implements ActionListener
 	{
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
@@ -124,7 +130,7 @@ private void initGUI() {
 			}
 
 			//WYŚWIETL GDZIE SIĘ ZAPISAŁ
-			PlikDecrypter.this.area2.setText(destination);		
+			PlikDecrypter.this.url.setText(destination);		
 		}
 	}
 }

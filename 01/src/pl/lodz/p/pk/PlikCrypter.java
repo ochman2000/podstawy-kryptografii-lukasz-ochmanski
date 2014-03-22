@@ -20,6 +20,7 @@ public class PlikCrypter extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private JTextField area2;
 	private JTextField area1;
+	private JLabel url;
 
 	public PlikCrypter() {
 		super("Szyfrowanie pliku");
@@ -69,6 +70,12 @@ private void initGUI() {
 		a.addActionListener(zh);
 		this.add(a);
 		
+		url = new JLabel("");
+		url.setLayout(null);
+		url.setLocation(50, 160);
+		url.setSize(200,100);
+		url.setVisible(true);
+		this.add(url);
 	}
 
 	private class WybierzHandler implements ActionListener {
@@ -82,8 +89,7 @@ private void initGUI() {
 			   nazwa_pliku = chooser.getSelectedFile().getAbsolutePath();
 			}
 			PlikCrypter.this.area2.setText(nazwa_pliku);			
-		}
-		
+		}		
 	}
 
 	private class ZakodujHandler implements ActionListener
@@ -124,7 +130,7 @@ private void initGUI() {
 			}
 
 			//WYŚWIETL GDZIE SIĘ ZAPISAŁ
-			PlikCrypter.this.area2.setText(destination);		
+			PlikCrypter.this.url.setText(destination);		
 		}
 	}
 }

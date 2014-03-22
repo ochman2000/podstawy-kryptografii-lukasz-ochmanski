@@ -27,7 +27,7 @@ public class TekstDecrypter extends JFrame {
 		this.initGUI();
 	}
 	
-private void initGUI() {
+	private void initGUI() {
 		
 		JLabel tytul = new JLabel("Wpisz tekst");
 		tytul.setLayout(null);
@@ -61,7 +61,6 @@ private void initGUI() {
 
 	private class OdkodujHandler implements ActionListener
 	{
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String m = TekstDecrypter.this.area2.getText();
