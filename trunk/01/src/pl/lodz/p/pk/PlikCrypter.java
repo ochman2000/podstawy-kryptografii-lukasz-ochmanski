@@ -3,7 +3,6 @@ package pl.lodz.p.pk;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -11,8 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class PlikCrypter extends JFrame{
@@ -68,7 +65,7 @@ private void initGUI() {
 		a.setLocation(400, 200);
 		a.setSize(100, 23);
 		a.setVisible(true);
-		OdkodujHandler zh = new OdkodujHandler();
+		ZakodujHandler zh = new ZakodujHandler();
 		a.addActionListener(zh);
 		this.add(a);
 		
@@ -89,7 +86,7 @@ private void initGUI() {
 		
 	}
 
-	private class OdkodujHandler implements ActionListener
+	private class ZakodujHandler implements ActionListener
 	{
 
 		@Override
