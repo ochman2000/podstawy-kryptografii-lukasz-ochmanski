@@ -19,7 +19,7 @@ public class TekstDecrypter extends JFrame {
 	private JTextField area1;
 
 	public TekstDecrypter() {
-		super("Szyfrowanie tekstu");
+		super("Odszyfrowanie tekstu");
 		this.setLayout(null);
 		this.setSize(600, 400);
 		this.setLocation(375, 100);
