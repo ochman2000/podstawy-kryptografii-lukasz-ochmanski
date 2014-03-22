@@ -1,7 +1,7 @@
 package pl.lodz.p.pk;
 
 import java.util.Arrays;
-import pl.lodz.p.tewi.Auxx;
+
 import pl.lodz.p.tewi.DES;
 import pl.lodz.p.tewi.DES.DESKeyException;
 
@@ -29,7 +29,7 @@ public class Encoder {
 		
 		//A KEY
 		String kHex = klucz;
-		byte[] kBytes = Auxx.hexToBytes(kHex);
+		byte[] kBytes = Utils.convertHexToBytes(kHex);
 		BitArray key = new BitArray(kBytes);
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
 			System.out.println("K: "+klucz);
@@ -57,7 +57,7 @@ public class Encoder {
 
 		//A KEY
 		String kHex = klucz;
-		byte[] kBytes = Auxx.hexToBytes(kHex);
+		byte[] kBytes = Utils.convertHexToBytes(kHex);
 		BitArray key = new BitArray(kBytes);
 		
 		//A MESSAGE
@@ -73,13 +73,7 @@ public class Encoder {
 			byte[] temp = encoder.encodeBlock(key, dane.get(i, i+64)).toByteArray();
 			kryptogram = Utils.concat(kryptogram, temp);
 		}
-		DES des = new DES();
-		try {
-			des.setKeyHex(klucz);
-		} catch (DESKeyException e) {
-			e.printStackTrace();
-		}
-		kryptogram = des.encode(data);
+		kryptogram = padBytes(klucz, data);
 		return kryptogram;
 	}
 
@@ -119,7 +113,7 @@ public class Encoder {
 		
 		//A KEY
 		String kHex = klucz;
-		byte[] kBytes = Auxx.hexToBytes(kHex);
+		byte[] kBytes = Utils.convertHexToBytes(kHex);
 		BitArray key = new BitArray(kBytes);
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
 			System.out.println("K: "+klucz);
@@ -136,15 +130,7 @@ public class Encoder {
 						+ kryptogram);
 			}
 		}
-		DES des = new DES();
-		try {
-			des.setKeyHex(klucz);
-		} catch (DESKeyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		byte[] deszyfrogram=des.decode(Auxx.hexToBytes(szyfrogram));
-		kryptogram = new String(deszyfrogram);
+		kryptogram = padBytes(klucz, szyfrogram);
 		
 		if (Encoder.LEVEL.getValue() > Debug.LEVEL0.getValue()) {
 			System.out.println("Odkodowana wiadomość: "+ kryptogram);
@@ -152,12 +138,12 @@ public class Encoder {
 		}
 		return kryptogram;
 	}
-	
+
 	public byte[] decrypt(String klucz, byte[] data) {
 
 		//A KEY
 		String kHex = klucz;
-		byte[] kBytes = Auxx.hexToBytes(kHex);
+		byte[] kBytes = Utils.convertHexToBytes(kHex);
 		BitArray key = new BitArray(kBytes);
 		
 		//A MESSAGE
@@ -172,10 +158,11 @@ public class Encoder {
 		for (int i=0; i<blok; i+=64) {
 			byte[] temp = encoder.decodeBlock(key, dane.get(i, i+64)).toByteArray();
 			raw = Utils.concat(raw, temp);
-		}		
+		}
+		raw = padBytes2(klucz, data);
 		return raw;
 	}
-	
+
 	private BitArray decodeBlock(BitArray klucz, BitArray szyfr) {
 
 		BitArray key = klucz;
@@ -193,8 +180,7 @@ public class Encoder {
 	
 
 	/**
-	 * EN Permute the key according to some pattern given in PC1. PL Pomieszaj
-	 * bity.
+	 * PL Pomieszaj bity.
 	 */
 	public BitArray step1(BitArray key) {
 		final byte[] PC1 = { 57, 49, 41, 33, 25, 17, 9, 1, 58, 50, 42, 34, 26,
@@ -594,5 +580,43 @@ public class Encoder {
 				System.err.println("Coś się wyrypało.");
 		}
 		return c;
+	}
+
+	private byte[] padBytes(String klucz, byte[] data) {
+		byte[] kryptogram;
+		DES des = new DES();
+		try {
+			des.setKeyHex(klucz);
+		} catch (DESKeyException e) {
+			e.printStackTrace();
+		}
+		kryptogram = des.encode(data);
+		return kryptogram;
+	}
+
+	private String padBytes(String klucz, String szyfrogram) {
+		String kryptogram;
+		DES des = new DES();
+		try {
+			des.setKeyHex(klucz);
+		} catch (DESKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		byte[] deszyfrogram=des.decode(Utils.convertHexToBytes(szyfrogram));
+		kryptogram = new String(deszyfrogram);
+		return kryptogram;
+	}
+
+	private byte[] padBytes2(String klucz, byte[] data) {
+		byte[] raw;
+		DES des = new DES();
+		try {
+			des.setKeyHex(klucz);
+		} catch (DESKeyException e) {
+			e.printStackTrace();
+		}
+		raw = des.decode(data);
+		return raw;
 	}
 }

@@ -1,13 +1,12 @@
 package pl.lodz.p.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
 import org.junit.Test;
 
 import pl.lodz.p.pk.BitArray;
-import pl.lodz.p.pk.Debug;
 import pl.lodz.p.pk.Encoder;
 import pl.lodz.p.tewi.Auxx;
 import pl.lodz.p.tewi.DES;
@@ -91,5 +90,29 @@ public class DecryptTest {
 		byte[] deszyfrogram=des.decode(Auxx.hexToBytes(szyfr));
 		String m = new String(deszyfrogram);
 		assertTrue(m, msg.equalsIgnoreCase(m));
+	}
+	
+	@Test
+	public void test10() {
+		//A KEY
+		String key = "133457799BBCDFF1";
+		
+		//A MESSAGE
+		String tekst = "01234567";
+
+		Encoder encoder = new Encoder();
+//				String szyfr = encoder.encrypt(key, tekst);
+//				tekst = encoder.decrypt(key, szyfr);
+		
+		byte[] data = tekst.getBytes();
+//				System.out.println(Arrays.toString(data));
+		
+		byte[] szyfr = encoder.encrypt(key, data);
+//				System.out.println("Moja metoda:");
+//				System.out.println(Arrays.toString(szyfr));
+		
+		byte[] data2 = encoder.decrypt(key, szyfr);
+//				System.out.println(Arrays.toString(data));
+		assertTrue("Równa się.", Arrays.equals(data, data2));
 	}
 }

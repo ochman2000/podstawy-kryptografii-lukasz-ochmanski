@@ -2,6 +2,8 @@ package pl.lodz.p.test;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 
 import pl.lodz.p.pk.BitArray;
@@ -85,5 +87,26 @@ public class EncryptTest {
 		Encoder encoder = new Encoder();
 		String szyfr = encoder.encrypt(key, tekst);
 		assertTrue(szyfr.equalsIgnoreCase("8B96B79529CCA21830948DABF73EA8A0"));
+	}
+	
+	@Test
+	public void test10() {
+		//A KEY
+		String key = "133457799BBCDFF1";
+		
+		//A MESSAGE
+		String tekst = "6CBD22858BCEDB79";
+
+		Encoder encoder = new Encoder();
+
+		
+		byte[] data = tekst.getBytes();
+
+		byte[] szyfr = encoder.decrypt(key, data);
+		
+		byte[] data2 = encoder.encrypt(key, szyfr);
+
+
+		assertTrue("Równa się.", Arrays.equals(data, data2));
 	}
 }
