@@ -28,7 +28,7 @@ public class UtilsTest {
 	@Test
 	public void testGetBitAt3() {
 		Bit a = Utils.getBitAt(b, 3);
-		assertTrue("Wartość: "+a.getValue(), a.getValue()==0);
+		assertTrue("Wartość: "+a.getValue(), a.getValue()==1);
 	}
 	@Test
 	public void testGetBitAt4() {
