@@ -2,7 +2,6 @@ package pl.lodz.p.pk;
 
 import java.util.ArrayList;
 
-import pl.lodz.p.tewi.Auxx;
 
 public class BitArray {
 
@@ -101,7 +100,7 @@ public class BitArray {
 	}
 	
 	public byte[] toByteArray() {
-		return Auxx.hexToBytes(this.getHexRepresentation());
+		return Utils.convertHexToBytes(this.getHexRepresentation());
 	}
 	
 	public Bit get(int index) {
