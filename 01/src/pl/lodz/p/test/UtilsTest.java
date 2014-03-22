@@ -1,4 +1,4 @@
-package plodz.pk;
+package pl.lodz.p.test;
 
 import static org.junit.Assert.*;
 
