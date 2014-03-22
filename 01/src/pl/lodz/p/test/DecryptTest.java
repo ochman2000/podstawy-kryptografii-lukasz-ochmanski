@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import pl.lodz.p.pk.BitArray;
 import pl.lodz.p.pk.Encoder;
+import pl.lodz.p.pk.Utils;
 import pl.lodz.p.tewi.Auxx;
 import pl.lodz.p.tewi.DES;
 import pl.lodz.p.tewi.DES.DESKeyException;
@@ -24,11 +25,11 @@ public class DecryptTest {
 		
 		//A KEY
 		String kHex = klucz;
-		byte[] kBytes = Auxx.hexToBytes(kHex);
+		byte[] kBytes = Utils.convertHexToBytes(kHex);
 
 		//A MESSAGE
 //		byte[] msg = szyfr.getBytes();
-		byte[] msg = Auxx.hexToBytes(szyfr);
+		byte[] msg = Utils.convertHexToBytes(szyfr);
 
 		assertTrue(Arrays.toString(msg), true);
 	}
@@ -43,11 +44,11 @@ public class DecryptTest {
 		
 		//A KEY
 		String kHex = klucz;
-		byte[] kBytes = Auxx.hexToBytes(kHex);
+		byte[] kBytes = Utils.convertHexToBytes(kHex);
 		BitArray key = new BitArray(kBytes);
 		
 		//A MESSAGE
-		byte[] msg = Auxx.hexToBytes(szyfr);
+		byte[] msg = Utils.convertHexToBytes(szyfr);
 		BitArray tekst = new BitArray(msg);
 
 		DES des = new DES();
@@ -58,7 +59,7 @@ public class DecryptTest {
 		}
 		
 		BitArray c = new BitArray(des.decode(msg));
-		String wiadomosc = new String(Auxx.hexToBytes(c.getHexRepresentation()));
+		String wiadomosc = new String(Utils.convertHexToBytes(c.getHexRepresentation()));
 		assertTrue("", wiadomosc.equalsIgnoreCase(plainTekst));
 	}
 	
@@ -87,7 +88,7 @@ public class DecryptTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		byte[] deszyfrogram=des.decode(Auxx.hexToBytes(szyfr));
+		byte[] deszyfrogram=des.decode(Utils.convertHexToBytes(szyfr));
 		String m = new String(deszyfrogram);
 		assertTrue(m, msg.equalsIgnoreCase(m));
 	}
