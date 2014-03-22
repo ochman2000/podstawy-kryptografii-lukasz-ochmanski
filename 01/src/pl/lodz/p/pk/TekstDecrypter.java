@@ -70,6 +70,5 @@ private void initGUI() {
 			String c = encoder.decrypt(k, m);
 			TekstDecrypter.this.area2.setText(c);		
 		}
-		
 	}
 }

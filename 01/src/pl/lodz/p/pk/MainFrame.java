@@ -95,7 +95,7 @@ public class MainFrame extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			new TekstCrypter();
+			new TekstDecrypter();
 		}
 	}
 	
@@ -103,7 +103,7 @@ public class MainFrame extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			new PlikCrypter();
+			new PlikDecrypter();
 		}
 	}
 }
