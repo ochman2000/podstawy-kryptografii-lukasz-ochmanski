@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class TekstCrypter extends JFrame {
+public class TekstDecrypter extends JFrame {
 
 	/**
 	 * 
@@ -18,7 +18,7 @@ public class TekstCrypter extends JFrame {
 	private JTextArea area2;
 	private JTextField area1;
 
-	public TekstCrypter() {
+	public TekstDecrypter() {
 		super("Szyfrowanie tekstu");
 		this.setLayout(null);
 		this.setSize(600, 400);
@@ -50,24 +50,26 @@ private void initGUI() {
 		area2.setVisible(true);
 		this.add(area2);
 		
-		JButton a = new JButton("Zakoduj");
+		JButton a = new JButton("Odkoduj");
 		a.setLocation(400, 160);
 		a.setSize(100, 30);
 		a.setVisible(true);
-		ZakodujHandler zh = new ZakodujHandler();
+		OdkodujHandler zh = new OdkodujHandler();
 		a.addActionListener(zh);
 		this.add(a);
 	}
 
-	private class ZakodujHandler implements ActionListener
+	private class OdkodujHandler implements ActionListener
 	{
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String m = TekstCrypter.this.area2.getText();
-			String k = TekstCrypter.this.area1.getText();
+			String m = TekstDecrypter.this.area2.getText();
+			String k = TekstDecrypter.this.area1.getText();
 			Encoder encoder = new Encoder();
-			String c = encoder.encrypt(k, m);
-			TekstCrypter.this.area2.setText(c);		
+			String c = encoder.decrypt(k, m);
+			TekstDecrypter.this.area2.setText(c);		
 		}
+		
 	}
 }
