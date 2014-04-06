@@ -1,4 +1,4 @@
-package pl.lodz.p.pk;
+package pl.lodz.p.pk.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +12,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class PlikDecrypter extends JFrame {
+import pl.lodz.p.pk.Encoder;
+
+public class PlikCrypter extends JFrame{
 
 	/**
 	 * 
@@ -22,8 +24,8 @@ public class PlikDecrypter extends JFrame {
 	private KluczArea area1;
 	private JLabel url;
 
-	public PlikDecrypter() {
-		super("Odszyfrowanie pliku");
+	public PlikCrypter() {
+		super("Szyfrowanie pliku");
 		this.setLayout(null);
 		this.setSize(600, 400);
 		this.setLocation(375, 100);
@@ -31,16 +33,16 @@ public class PlikDecrypter extends JFrame {
 		this.initGUI();
 	}
 	
-	private void initGUI() {
+private void initGUI() {
 		
 		JLabel tytul = new JLabel("Wybierz ścieżkę URL");
 		tytul.setLayout(null);
-		tytul.setLocation(100, 0);
+		tytul.setLocation(100, 00);
 		tytul.setSize(200,100);
 		tytul.setVisible(true);
 		this.add(tytul);
 		
-		area1= new KluczArea("Twój klucz publiczny");
+		area1= new KluczArea("Twój klucz prywatny");
 		this.add(area1);
 		
 		area2	= new JTextField();
@@ -58,11 +60,11 @@ public class PlikDecrypter extends JFrame {
 		b.addActionListener(wh);
 		this.add(b);
 		
-		JButton a = new JButton("Odszyfruj");
+		JButton a = new JButton("Zaszyfruj");
 		a.setLocation(400, 200);
 		a.setSize(100, 23);
 		a.setVisible(true);
-		OdkodujHandler zh = new OdkodujHandler();
+		ZakodujHandler zh = new ZakodujHandler();
 		a.addActionListener(zh);
 		this.add(a);
 		
@@ -72,7 +74,6 @@ public class PlikDecrypter extends JFrame {
 		url.setSize(200,100);
 		url.setVisible(true);
 		this.add(url);
-		
 	}
 
 	private class WybierzHandler implements ActionListener {
@@ -81,21 +82,22 @@ public class PlikDecrypter extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JFileChooser chooser = new JFileChooser(".");
-			int returnVal = chooser.showOpenDialog(PlikDecrypter.this);
+			int returnVal = chooser.showOpenDialog(PlikCrypter.this);
 			if(returnVal == JFileChooser.APPROVE_OPTION) {
 			   nazwa_pliku = chooser.getSelectedFile().getAbsolutePath();
 			}
-			PlikDecrypter.this.area2.setText(nazwa_pliku);			
-		}
+			PlikCrypter.this.area2.setText(nazwa_pliku);			
+		}		
 	}
 
-	private class OdkodujHandler implements ActionListener
+	private class ZakodujHandler implements ActionListener
 	{
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			String nazwa_pliku=PlikDecrypter.this.area2.getText();
-			String destination="out/odszyfrowany.plik";
+			String nazwa_pliku=PlikCrypter.this.area2.getText();
+			String destination="out/zaszyfrowany.plik";
 			byte[] dane = null;
 			
 			//WCZYTAJ PLIK
@@ -111,9 +113,9 @@ public class PlikDecrypter extends JFrame {
 
 	        //PRZEPROCESUJ
 	        byte[] m = dane;
-			String k = PlikDecrypter.this.area1.getText();
+			String k = PlikCrypter.this.area1.getText();
 			Encoder encoder = new Encoder();
-//			byte[] c = encoder.decrypt(k, m);
+//			byte[] c = encoder.encrypt(k, m);
 			
 			//ZAPISZ PLIK
 	        FileOutputStream fos;
@@ -126,7 +128,7 @@ public class PlikDecrypter extends JFrame {
 			}
 
 			//WYŚWIETL GDZIE SIĘ ZAPISAŁ
-			PlikDecrypter.this.url.setText(destination);		
+			PlikCrypter.this.url.setText(destination);		
 		}
 	}
 }

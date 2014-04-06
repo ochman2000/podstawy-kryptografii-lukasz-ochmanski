@@ -1,12 +1,16 @@
-package pl.lodz.p.pk;
+package pl.lodz.p.pk.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Scanner;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+
+import pl.lodz.p.pk.Encoder;
+import pl.lodz.p.pk.Key;
 
 public class TekstDecrypter extends JFrame {
 
