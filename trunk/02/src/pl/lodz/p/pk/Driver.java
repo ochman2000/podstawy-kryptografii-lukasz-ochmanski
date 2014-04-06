@@ -1,6 +1,10 @@
 package pl.lodz.p.pk;
 
+import static org.junit.Assert.assertTrue;
+
 import java.math.BigInteger;
+import java.nio.charset.Charset;
+import java.util.Arrays;
 
 public class Driver {
 	
@@ -9,21 +13,21 @@ public class Driver {
 		new MainFrame();
 
 		//A MESSAGE
-		BigInteger tekst = new BigInteger("2345");
-		
-
+		Encoder en = new Encoder();
 		RSAKey klucz  = new RSAKey();
 		System.out.println("Klucz prywatny: "+ klucz.getPrywatny());
 		System.out.println("Klucz publiczny: "+ klucz.getPubliczny());
-
-		System.out.println("Plain tekst: "+ tekst);
 		
-		Encoder en = new Encoder();
-		BigInteger szyfrogram = en.szyfruj(tekst, klucz.getPrywatny());
-		System.out.println("Zaszyfrowany:  "+ szyfrogram.toString());
+		String tekst1 = "HAHHAH";
+		System.out.println("Plain tekst: "+ tekst1);
 		
-		BigInteger plainTekst = en.deszyfruj(szyfrogram, klucz.getPubliczny());
-		System.out.println("Odszyfrowany: "+ plainTekst);
+		String szyfrogram = en.szyfruj(tekst1, klucz.getPrywatny());
+		System.out.println("Zaszyfrowany:  "+ szyfrogram);
+		
+		String tekst2 = en.deszyfruj(szyfrogram, klucz.getPubliczny());
+		System.out.println("Odszyfrowany: "+ tekst2);
+		
+		assertTrue(tekst1+".equals("+tekst2+")", tekst1.equals(tekst2));
 		
 	}
 }
