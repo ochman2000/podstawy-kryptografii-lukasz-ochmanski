@@ -16,4 +16,16 @@ public class Key {
 		return ("("+a.toString()+", "+n.toString()+")");
 		
 	}
+
+	public BigInteger getA() {
+		return a;
+	}
+
+	public BigInteger getN() {
+		return n;
+	}
+	
+	public int getLiczbaZnakow() {
+		return (n.bitLength()-1)/8;
+	}
 }
