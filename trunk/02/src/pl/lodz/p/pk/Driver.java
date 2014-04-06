@@ -11,7 +11,9 @@ public class Driver {
 		//A MESSAGE
 		String tekst = "01234567";
 
-		Encoder encoder = new Encoder();
+		RSAKey klucz  = new RSAKey();
+		System.out.println("Klucz prywatny: "+ klucz.getPrywatny());
+		System.out.println("Klucz publiczny: "+ klucz.getPubliczny());
 
 	}
 }
