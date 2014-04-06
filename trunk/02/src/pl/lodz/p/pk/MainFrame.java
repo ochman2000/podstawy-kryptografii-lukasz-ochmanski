@@ -16,7 +16,7 @@ public class MainFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
 
 	public MainFrame(){
-		super("Witaj w programie do szyfrowania DES");
+		super("Witaj w programie do szyfrowania asymetrycznego RSA");
 		
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -50,7 +50,6 @@ public class MainFrame extends JFrame{
 		a.addActionListener(tch);
 		this.add(a);
 		
-		
 		JButton b = new JButton("Odszyfruj tekst");
 		b.setLocation(300, 120);
 		b.setSize(200, 30);
@@ -74,6 +73,14 @@ public class MainFrame extends JFrame{
 		PlikDecryptHandler pdh = new PlikDecryptHandler();
 		d.addActionListener(pdh);
 		this.add(d);
+		
+		JButton e = new JButton("Wygeneruj klucz");
+		e.setLocation(200, 220);
+		e.setSize(200, 30);
+		e.setVisible(true);
+		GenerateKeyHandler gkh = new GenerateKeyHandler();
+		e.addActionListener(gkh);
+		this.add(e);
 	}
 	
 	private class TekstCryptHandler implements ActionListener {
@@ -104,6 +111,14 @@ public class MainFrame extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			new PlikDecrypter();
+		}
+	}
+	
+	private class GenerateKeyHandler implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new KeyGenerator();			
 		}
 	}
 }

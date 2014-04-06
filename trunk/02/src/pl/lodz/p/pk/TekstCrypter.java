@@ -50,7 +50,7 @@ private void initGUI() {
 		area2.setVisible(true);
 		this.add(area2);
 		
-		JButton a = new JButton("Zakoduj");
+		JButton a = new JButton("Zaszyfruj");
 		a.setLocation(400, 160);
 		a.setSize(100, 30);
 		a.setVisible(true);
@@ -66,8 +66,8 @@ private void initGUI() {
 			String m = TekstCrypter.this.area2.getText();
 			String k = TekstCrypter.this.area1.getText();
 			Encoder encoder = new Encoder();
-			String c = encoder.encrypt(k, m);
-			TekstCrypter.this.area2.setText(c);		
+//			String c = encoder.encrypt(k, m);
+//			TekstCrypter.this.area2.setText(c);		
 		}
 	}
 }
