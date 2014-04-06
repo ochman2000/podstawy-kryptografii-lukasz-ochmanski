@@ -6,5 +6,11 @@ public class Encoder {
 
 	public Encoder() {
 		
+		
+	}
+	
+	public byte[] szyfruj(byte[] a, Key klucz) {
+		return a;
+		
 	}
 }
