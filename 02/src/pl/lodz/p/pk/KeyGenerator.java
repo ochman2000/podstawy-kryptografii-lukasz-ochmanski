@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class KeyGenerator extends JFrame{
@@ -19,8 +20,8 @@ public class KeyGenerator extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField area2;
-	private JTextField area1;
+	private JTextArea area2;
+	private JTextArea area1;
 	private JLabel url;
 
 	public KeyGenerator() {
@@ -36,21 +37,37 @@ private void initGUI() {
 		
 		JLabel tytul = new JLabel("Tutaj możesz wygenerować klucz RSA");
 		tytul.setLayout(null);
-		tytul.setLocation(100, 00);
-		tytul.setSize(200,100);
+		tytul.setLocation(100, 10);
+		tytul.setSize(200, 20);
 		tytul.setVisible(true);
 		this.add(tytul);
 		
-		area1	= new JTextField("Klucz publiczny");
+		JLabel publicL = new JLabel("Klucz publiczny:");
+		publicL.setLayout(null);
+		publicL.setLocation(50, 60);
+		publicL.setSize(200,20);
+		publicL.setVisible(true);
+		this.add(publicL);
+		
+		area1	= new JTextArea("pusty");
+		area1.setLineWrap(true);
 		area1.setLayout(null);
 		area1.setLocation(50, 80);
 		area1.setSize(300, 100);
 		area1.setVisible(true);
 		this.add(area1);
 		
-		area2	= new JTextField("Klucz prywatny");
+		JLabel privateL = new JLabel("Klucz prywatny:");
+		privateL.setLayout(null);
+		privateL.setLocation(50, 200);
+		privateL.setSize(200,20);
+		privateL.setVisible(true);
+		this.add(privateL);
+		
+		area2	= new JTextArea("pusty");
+		area2.setLineWrap(true);
 		area2.setLayout(null);
-		area2.setLocation(50, 200);
+		area2.setLocation(50, 220);
 		area2.setSize(300, 100);
 		area2.setVisible(true);
 		this.add(area2);
@@ -68,7 +85,9 @@ private void initGUI() {
 	{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			RSAKey kluczRSA = new RSAKey();
+			KeyGenerator.this.area1.setText(kluczRSA.getPubliczny().getA().toString());
+			KeyGenerator.this.area2.setText(kluczRSA.getPrywatny().getA().toString());
 		}
 	}
 }

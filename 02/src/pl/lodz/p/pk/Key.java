@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 public class Key {
 	
+	private static final String SEPARATOR = "\n";
 	private BigInteger a;
 	private BigInteger n;
 	
@@ -13,8 +14,7 @@ public class Key {
 	}
 	
 	public String toString () {
-		return ("("+a.toString()+", "+n.toString()+")");
-		
+		return ("("+a.toString()+SEPARATOR+n.toString()+")");
 	}
 
 	public BigInteger getA() {
