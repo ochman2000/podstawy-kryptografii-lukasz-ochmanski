@@ -5,6 +5,10 @@ import java.util.Random;
 
 public class RSAKey {
 	
+	/**
+	 * Ta wartość daje d=512
+	 */
+	private int keyLen=256;
 	private Key publiczny;
 	private Key prywatny;
 	private BigInteger d;
@@ -12,8 +16,8 @@ public class RSAKey {
 	public RSAKey() {
 		
 		//	1.	SELECT TWO PRIME NUMBERS, p=17 AND q=11
-		BigInteger p= new BigInteger("17");
-		BigInteger q= new BigInteger("11");
+		BigInteger p = BigInteger.probablePrime(keyLen,new Random());
+	    BigInteger q = BigInteger.probablePrime(keyLen,new Random());
 		
 		//	2.	CALCULATE n = pq = 17 x 11 = 187
 		BigInteger n = p.multiply(q);
@@ -23,17 +27,15 @@ public class RSAKey {
 		
 		//	4.	SELECT e SUCH THAT e IS RELATIVELY PRIME TO PHI(n)=160 AND LESS
 		//		THAN PHI(n); WE CHOOSE e=7
-		BigInteger e= new BigInteger("7");
-//		e = BigInteger.probablePrime(keyLen, new Random());
-		while(true) {
-			if (e.gcd(euler).equals(BigInteger.ONE))break;
-			else e=e.nextProbablePrime();
+		BigInteger e = BigInteger.probablePrime(keyLen, new Random());
+		while(!(e.gcd(euler).equals(BigInteger.ONE))) {
+			e=e.nextProbablePrime();
 		}
 		
 		//	5.	DETERMINE d SUCH THAT de(mod 160) = 1(mod 160) AND d<160.
 		//		THE CORRECT VALUE IS d=23, because 23x7=161=(1x160)+1;
 		//		d CAN BE CALCULATED USING THE EXTENDED EUCLID'S ALGORITHM.
-		    d = e.modInverse(euler);
+		d = e.modInverse(euler);
 		
 		//	THE RESULTING KEYS ARE PUBLIC KEY PU={7,187}, AND PRIVATE KEY PR={23,187}.
 		

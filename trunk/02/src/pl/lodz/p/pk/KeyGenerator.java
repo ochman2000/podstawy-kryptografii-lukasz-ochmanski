@@ -43,20 +43,20 @@ private void initGUI() {
 		
 		area1	= new JTextField("Klucz publiczny");
 		area1.setLayout(null);
-		area1.setLocation(50, 120);
-		area1.setSize(300, 23);
+		area1.setLocation(50, 80);
+		area1.setSize(300, 100);
 		area1.setVisible(true);
 		this.add(area1);
 		
 		area2	= new JTextField("Klucz prywatny");
 		area2.setLayout(null);
-		area2.setLocation(50, 160);
-		area2.setSize(300, 23);
+		area2.setLocation(50, 200);
+		area2.setSize(300, 100);
 		area2.setVisible(true);
 		this.add(area2);
 			
 		JButton a = new JButton("Generuj");
-		a.setLocation(400, 140);
+		a.setLocation(400, 120);
 		a.setSize(100, 23);
 		a.setVisible(true);
 		GenerujHandler gh = new GenerujHandler();
@@ -68,7 +68,7 @@ private void initGUI() {
 	{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
+			
 		}
 	}
 }
