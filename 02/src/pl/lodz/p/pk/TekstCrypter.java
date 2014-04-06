@@ -2,6 +2,7 @@ package pl.lodz.p.pk;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,7 +17,7 @@ public class TekstCrypter extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextArea area2;
-	private JTextField area1;
+	private KluczArea area1;
 
 	public TekstCrypter() {
 		super("Szyfrowanie tekstu");
@@ -36,11 +37,7 @@ private void initGUI() {
 		tytul.setVisible(true);
 		this.add(tytul);
 		
-		area1	= new JTextField("133457799BBCDFF1");
-		area1.setLayout(null);
-		area1.setLocation(50, 120);
-		area1.setSize(300, 20);
-		area1.setVisible(true);
+		area1= new KluczArea("Twój klucz prywatny");
 		this.add(area1);
 		
 		area2	= new JTextArea();
@@ -63,11 +60,17 @@ private void initGUI() {
 	{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String m = TekstCrypter.this.area2.getText();
 			String k = TekstCrypter.this.area1.getText();
+			String m = TekstCrypter.this.area2.getText();
 			Encoder encoder = new Encoder();
-//			String c = encoder.encrypt(k, m);
-//			TekstCrypter.this.area2.setText(c);		
+			@SuppressWarnings("resource")
+			Scanner sc = new Scanner(k);
+//			sc.useDelimiter(Key.SEPARATOR);
+			String k1 = sc.next();
+			String k2 = sc.next();
+			Key klucz = new Key(k1, k2);
+			String c = encoder.szyfruj(m, klucz);
+			TekstCrypter.this.area2.setText(c);		
 		}
 	}
 }

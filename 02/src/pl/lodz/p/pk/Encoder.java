@@ -1,9 +1,6 @@
 package pl.lodz.p.pk;
 
 import java.math.BigInteger;
-import java.nio.charset.Charset;
-
-import pl.lodz.p.tewi.Auxx;
 
 public class Encoder {
 

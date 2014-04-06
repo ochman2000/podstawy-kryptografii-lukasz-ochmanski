@@ -5,13 +5,9 @@ import java.util.Random;
 
 public class RSAKey {
 	
-	/**
-	 * Ta wartość daje d=512
-	 */
 	private int keyLen=256;
 	private Key publiczny;
 	private Key prywatny;
-	private BigInteger d;
 	
 	public RSAKey() {
 		
@@ -35,7 +31,7 @@ public class RSAKey {
 		//	5.	DETERMINE d SUCH THAT de(mod 160) = 1(mod 160) AND d<160.
 		//		THE CORRECT VALUE IS d=23, because 23x7=161=(1x160)+1;
 		//		d CAN BE CALCULATED USING THE EXTENDED EUCLID'S ALGORITHM.
-		d = e.modInverse(euler);
+		BigInteger d = e.modInverse(euler);
 		
 		//	THE RESULTING KEYS ARE PUBLIC KEY PU={7,187}, AND PRIVATE KEY PR={23,187}.
 		

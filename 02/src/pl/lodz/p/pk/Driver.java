@@ -2,10 +2,6 @@ package pl.lodz.p.pk;
 
 import static org.junit.Assert.assertTrue;
 
-import java.math.BigInteger;
-import java.nio.charset.Charset;
-import java.util.Arrays;
-
 public class Driver {
 	
 	public static void main(String[] args) {

@@ -19,7 +19,7 @@ public class PlikDecrypter extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField area2;
-	private JTextField area1;
+	private KluczArea area1;
 	private JLabel url;
 
 	public PlikDecrypter() {
@@ -40,11 +40,7 @@ public class PlikDecrypter extends JFrame {
 		tytul.setVisible(true);
 		this.add(tytul);
 		
-		area1	= new JTextField("133457799BBCDFF1");
-		area1.setLayout(null);
-		area1.setLocation(50, 120);
-		area1.setSize(300, 23);
-		area1.setVisible(true);
+		area1= new KluczArea("Twój klucz publiczny");
 		this.add(area1);
 		
 		area2	= new JTextField();

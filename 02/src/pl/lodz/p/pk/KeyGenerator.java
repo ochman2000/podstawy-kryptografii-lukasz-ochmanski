@@ -86,8 +86,8 @@ private void initGUI() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			RSAKey kluczRSA = new RSAKey();
-			KeyGenerator.this.area1.setText(kluczRSA.getPubliczny().getA().toString());
-			KeyGenerator.this.area2.setText(kluczRSA.getPrywatny().getA().toString());
+			KeyGenerator.this.area1.setText(kluczRSA.getPubliczny().toString());
+			KeyGenerator.this.area2.setText(kluczRSA.getPrywatny().toString());
 		}
 	}
 }
