@@ -54,7 +54,7 @@ private void initGUI() {
 		area2.setVisible(true);
 		this.add(area2);
 		
-		JButton b = new JButton("Wybierz...");
+		JButton b = new JButton("...");
 		b.setLocation(400, 160);
 		b.setSize(100, 23);
 		b.setVisible(true);
@@ -62,7 +62,7 @@ private void initGUI() {
 		b.addActionListener(wh);
 		this.add(b);
 		
-		JButton a = new JButton("Zakoduj");
+		JButton a = new JButton("Zaszyfruj");
 		a.setLocation(400, 200);
 		a.setSize(100, 23);
 		a.setVisible(true);
@@ -117,13 +117,13 @@ private void initGUI() {
 	        byte[] m = dane;
 			String k = PlikCrypter.this.area1.getText();
 			Encoder encoder = new Encoder();
-			byte[] c = encoder.encrypt(k, m);
+//			byte[] c = encoder.encrypt(k, m);
 			
 			//ZAPISZ PLIK
 	        FileOutputStream fos;
 			try {
 				fos = new FileOutputStream(destination);
-		        fos.write(c);
+//		        fos.write(c);
 		        fos.close();
 			} catch (IOException e1) {
 				e1.printStackTrace();

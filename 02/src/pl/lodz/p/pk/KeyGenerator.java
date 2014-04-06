@@ -2,24 +2,29 @@ package pl.lodz.p.pk;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class TekstDecrypter extends JFrame {
+public class KeyGenerator extends JFrame{
+
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextArea area2;
+	private JTextField area2;
 	private JTextField area1;
+	private JLabel url;
 
-	public TekstDecrypter() {
-		super("Odszyfrowanie tekstu");
+	public KeyGenerator() {
+		super("Generowanie kluczy RSA");
 		this.setLayout(null);
 		this.setSize(600, 400);
 		this.setLocation(375, 100);
@@ -27,47 +32,43 @@ public class TekstDecrypter extends JFrame {
 		this.initGUI();
 	}
 	
-	private void initGUI() {
+private void initGUI() {
 		
-		JLabel tytul = new JLabel("Wpisz tekst");
+		JLabel tytul = new JLabel("Tutaj możesz wygenerować klucz RSA");
 		tytul.setLayout(null);
 		tytul.setLocation(100, 00);
 		tytul.setSize(200,100);
 		tytul.setVisible(true);
 		this.add(tytul);
 		
-		area1	= new JTextField("133457799BBCDFF1");
+		area1	= new JTextField("Klucz publiczny");
 		area1.setLayout(null);
 		area1.setLocation(50, 120);
-		area1.setSize(300, 20);
+		area1.setSize(300, 23);
 		area1.setVisible(true);
 		this.add(area1);
 		
-		area2	= new JTextArea();
+		area2	= new JTextField("Klucz prywatny");
 		area2.setLayout(null);
 		area2.setLocation(50, 160);
-		area2.setSize(300, 150);
+		area2.setSize(300, 23);
 		area2.setVisible(true);
 		this.add(area2);
-		
-		JButton a = new JButton("Odszyfruj");
-		a.setLocation(400, 160);
-		a.setSize(100, 30);
+			
+		JButton a = new JButton("Generuj");
+		a.setLocation(400, 140);
+		a.setSize(100, 23);
 		a.setVisible(true);
-		OdkodujHandler zh = new OdkodujHandler();
-		a.addActionListener(zh);
+		GenerujHandler gh = new GenerujHandler();
+		a.addActionListener(gh);
 		this.add(a);
 	}
 
-	private class OdkodujHandler implements ActionListener
+	private class GenerujHandler implements ActionListener
 	{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String m = TekstDecrypter.this.area2.getText();
-			String k = TekstDecrypter.this.area1.getText();
-			Encoder encoder = new Encoder();
-//			String c = encoder.decrypt(k, m);
-//			TekstDecrypter.this.area2.setText(c);		
+
 		}
 	}
 }
