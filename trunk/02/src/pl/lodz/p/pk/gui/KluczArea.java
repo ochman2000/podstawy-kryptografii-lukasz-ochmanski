@@ -1,4 +1,4 @@
-package pl.lodz.p.pk;
+package pl.lodz.p.pk.gui;
 
 import javax.swing.JTextArea;
 
