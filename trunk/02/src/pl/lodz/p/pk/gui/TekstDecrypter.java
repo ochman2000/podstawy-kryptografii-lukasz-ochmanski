@@ -43,6 +43,7 @@ public class TekstDecrypter extends JFrame {
 		this.add(area1);
 		
 		area2	= new JTextArea();
+		area2.setLineWrap(true);
 		area2.setLayout(null);
 		area2.setLocation(50, 160);
 		area2.setSize(300, 150);

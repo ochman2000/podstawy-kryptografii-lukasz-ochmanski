@@ -5,13 +5,11 @@ import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import pl.lodz.p.pk.Encoder;
 
 public class PlikDecrypter extends JFrame {
@@ -35,24 +33,24 @@ public class PlikDecrypter extends JFrame {
 	
 	private void initGUI() {
 		
-		JLabel tytul = new JLabel("Wybierz ścieżkę URL");
+		JLabel tytul = new JLabel("Plik:");
 		tytul.setLayout(null);
-		tytul.setLocation(100, 0);
-		tytul.setSize(200,100);
+		tytul.setLocation(50, 162);
+		tytul.setSize(100,23);
 		tytul.setVisible(true);
 		this.add(tytul);
 		
 		area1= new KluczArea("Twój klucz publiczny");
 		this.add(area1);
 		
-		area2	= new JTextField();
+		area2	= new JTextField("C:\\");
 		area2.setLayout(null);
-		area2.setLocation(50, 160);
-		area2.setSize(300, 23);
+		area2.setLocation(80, 160);
+		area2.setSize(270, 23);
 		area2.setVisible(true);
 		this.add(area2);
 		
-		JButton b = new JButton("...");
+		JButton b = new JButton("Wybierz...");
 		b.setLocation(400, 160);
 		b.setSize(100, 23);
 		b.setVisible(true);
