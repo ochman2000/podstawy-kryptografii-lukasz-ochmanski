@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -13,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import pl.lodz.p.pk.Encoder;
+import pl.lodz.p.pk.Key;
 
 public class PlikCrypter extends JFrame{
 
@@ -100,6 +102,14 @@ private void initGUI() {
 			String destination="out/zaszyfrowany.plik";
 			byte[] dane = null;
 			
+			//POBIERZ KLUCZ I ODPOWIEDNIO SFORMATUJ
+			String k = PlikCrypter.this.area1.getText();
+			@SuppressWarnings("resource")
+			Scanner sc = new Scanner(k);
+			String k1 = sc.next();
+			String k2 = sc.next();
+			Key klucz = new Key(k1, k2);
+			
 			//WCZYTAJ PLIK
 	        try {
 			    FileInputStream fis = new FileInputStream(nazwa_pliku);
@@ -112,16 +122,15 @@ private void initGUI() {
 			}
 
 	        //PRZEPROCESUJ
-	        byte[] m = dane;
-			String k = PlikCrypter.this.area1.getText();
+	        byte[] d = dane;
 			Encoder encoder = new Encoder();
-//			byte[] c = encoder.encrypt(k, m);
+			byte[] c = encoder.szyfruj(d, klucz);
 			
 			//ZAPISZ PLIK
 	        FileOutputStream fos;
 			try {
 				fos = new FileOutputStream(destination);
-//		        fos.write(c);
+		        fos.write(c);
 		        fos.close();
 			} catch (IOException e1) {
 				e1.printStackTrace();
