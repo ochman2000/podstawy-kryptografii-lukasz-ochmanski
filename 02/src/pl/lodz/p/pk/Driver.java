@@ -9,22 +9,20 @@ public class Driver {
 		new MainFrame();
 
 		//A MESSAGE
-		String tekst = "1";
+		BigInteger tekst = new BigInteger("2345");
+		
 
 		RSAKey klucz  = new RSAKey();
 		System.out.println("Klucz prywatny: "+ klucz.getPrywatny());
 		System.out.println("Klucz publiczny: "+ klucz.getPubliczny());
 
-		Encoder en = new Encoder();
-		BigInteger[] szyfrogram = en.szyfruj(tekst.getBytes(), klucz.getPrywatny());
 		System.out.println("Plain tekst: "+ tekst);
 		
-		BigInteger[] tekstb = new BigInteger[] {new BigInteger(tekst)};
-		System.out.println("Plain tekst: "+ tekstb);
+		Encoder en = new Encoder();
+		BigInteger szyfrogram = en.szyfruj(tekst, klucz.getPrywatny());
+		System.out.println("Zaszyfrowany:  "+ szyfrogram.toString());
 		
-		System.out.println("Szyfrogram:  "+ szyfrogram.toString());
-		
-		BigInteger[] plainTekst = en.decryptToBigInt(szyfrogram, klucz.getPubliczny());
+		BigInteger plainTekst = en.deszyfruj(szyfrogram, klucz.getPubliczny());
 		System.out.println("Odszyfrowany: "+ plainTekst);
 		
 	}
