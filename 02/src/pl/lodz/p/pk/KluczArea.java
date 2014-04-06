@@ -11,9 +11,10 @@ public class KluczArea extends JTextArea {
 
 	public KluczArea(String title) {
 		super(title);
+		this.setLineWrap(true);
 		this.setLayout(null);
-		this.setLocation(50, 90);
-		this.setSize(300, 50);
+		this.setLocation(50, 70);
+		this.setSize(300, 70);
 		this.setVisible(true);
 	}
 }

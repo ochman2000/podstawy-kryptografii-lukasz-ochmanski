@@ -2,12 +2,11 @@ package pl.lodz.p.pk;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 public class TekstDecrypter extends JFrame {
 
@@ -59,11 +58,16 @@ public class TekstDecrypter extends JFrame {
 	{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String m = TekstDecrypter.this.area2.getText();
 			String k = TekstDecrypter.this.area1.getText();
+			String m = TekstDecrypter.this.area2.getText();
 			Encoder encoder = new Encoder();
-//			String c = encoder.decrypt(k, m);
-//			TekstDecrypter.this.area2.setText(c);		
+			@SuppressWarnings("resource")
+			Scanner sc = new Scanner(k);
+			String k1 = sc.next();
+			String k2 = sc.next();
+			Key klucz = new Key(k1, k2);
+			String c = encoder.deszyfruj(m, klucz);
+			TekstDecrypter.this.area2.setText(c);				
 		}
 	}
 }
