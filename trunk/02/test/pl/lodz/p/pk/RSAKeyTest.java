@@ -2,6 +2,8 @@ package pl.lodz.p.pk;
 
 import static org.junit.Assert.*;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -87,5 +89,78 @@ public class RSAKeyTest {
 		BigInteger kryptogr = new BigInteger(1, msg.getBytes());
 		String bigint = new String(kryptogr.toByteArray()); 
 		assertTrue(bigint, bigint.equals(msg));
+	}
+	
+	@Test
+	public void test6() {		
+        byte[] msg = {0,1,2,3,4};
+		BigInteger bigint = new BigInteger(msg);	
+		String a = Arrays.toString(msg);
+		String b = Arrays.toString(bigint.toByteArray());
+		assertTrue(b, a.equals(b));
+	}
+	
+	@Test
+	public void test7() {		
+        byte[] msg = {1,2,3,4,0};
+		BigInteger bigint = new BigInteger(msg);	
+		String a = Arrays.toString(msg);
+		String b = Arrays.toString(bigint.toByteArray());
+		assertTrue(b, a.equals(b));
+	}
+	
+	@Test
+	public void test8() {
+		
+		byte[] dane = null;
+		try {
+		    FileInputStream fis = new FileInputStream("out\\picture.jpg");
+	        int ileWPliku = fis.available();
+	        dane = new byte[ileWPliku];
+			fis.read(dane);
+	        fis.close();
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+
+        //PRZEPROCESUJ
+        byte[] msg = dane;
+		BigInteger bigint = new BigInteger(msg);	
+		String a = Arrays.toString(dane);
+		String b = Arrays.toString(bigint.toByteArray());
+//		System.out.println("A: "+a);
+//		System.out.println("B: "+b);
+		assertTrue(a.equals(b));
+	}
+	
+	@Test
+	public void test9() {
+		
+		byte[] dane = null;
+		try {
+		    FileInputStream fis = new FileInputStream("out\\picture.jpg");
+	        int ileWPliku = fis.available();
+	        dane = new byte[ileWPliku];
+			fis.read(dane);
+	        fis.close();
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+
+        //PRZEPROCESUJ
+        byte[] msg = dane;
+		BigInteger bigint = new BigInteger(msg);
+		byte[] bytes = bigint.toByteArray();
+		byte[] padded = new byte[bytes.length+1];
+		System.arraycopy(bytes, 0, padded, 1, bytes.length);
+		bytes[0] = -1;
+
+		String a = Arrays.toString(dane);
+		String b = Arrays.toString(bytes);
+
+		System.out.println("B: "+b);
+		assertTrue(a.equals(b));
+		
+		
 	}
 }
