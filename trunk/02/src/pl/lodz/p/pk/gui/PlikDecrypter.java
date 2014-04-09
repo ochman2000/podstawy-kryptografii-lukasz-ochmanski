@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -15,6 +16,7 @@ import javax.swing.JTextField;
 
 import pl.lodz.p.pk.Encoder;
 import pl.lodz.p.pk.Key;
+import pl.lodz.p.pk.Szyfrogram;
 
 public class PlikDecrypter extends JFrame {
 
@@ -100,7 +102,6 @@ public class PlikDecrypter extends JFrame {
 
 			String nazwa_pliku=PlikDecrypter.this.area2.getText();
 			String destination="out/odszyfrowany.jpg";
-			byte[] dane = null;
 			
 			//POBIERZ KLUCZ I ODPOWIEDNIO SFORMATUJ
 			String k = PlikDecrypter.this.area1.getText();
@@ -111,20 +112,20 @@ public class PlikDecrypter extends JFrame {
 			Key klucz = new Key(k1, k2);
 			
 			//WCZYTAJ PLIK
+			Szyfrogram s = null;
 	        try {
 			    FileInputStream fis = new FileInputStream(nazwa_pliku);
-		        int ileWPliku = fis.available();
-		        dane = new byte[ileWPliku];
-				fis.read(dane);
+		        ObjectInputStream in = new ObjectInputStream(fis);
+		        s = (Szyfrogram) in.readObject();
+		        in.close();
 		        fis.close();
-			} catch (IOException e2) {
+			} catch (IOException | ClassNotFoundException e2) {
 				e2.printStackTrace();
 			}
 
 	        //PRZEPROCESUJ
-	        byte[] d = dane;
 			Encoder encoder = new Encoder();
-			byte[] c = encoder.deszyfruj(d, klucz);
+			byte[] c = encoder.deszyfruj(s, klucz);
 			
 			//ZAPISZ PLIK
 	        FileOutputStream fos;
