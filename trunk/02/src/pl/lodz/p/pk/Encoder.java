@@ -1,6 +1,9 @@
 package pl.lodz.p.pk;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Encoder {
 
@@ -35,7 +38,7 @@ public class Encoder {
 			return msg.modPow(klucz.getA(), klucz.getN());
 	}
 
-	public byte[] szyfruj(byte[] msg, Key kluczPubliczny) {
+	private byte[] szyfrujKawałek(byte[] msg, Key kluczPubliczny) {
 		msg = padArray(msg);
 		BigInteger bigint = new BigInteger(msg);
 		try {
@@ -49,7 +52,29 @@ public class Encoder {
 	}
 	
 
+	public byte[] szyfruj(byte[] msg, Key kluczPubliczny) {
+		ArrayList<Byte> encrypted = new ArrayList<Byte>();
+		for (int i=0; i<msg.length; i+=64) {
+			int	to = ((i+63)<msg.length) ? i+63 : msg.length;
+			byte[] kawałek = Arrays.copyOfRange(msg, i, to);
+			kawałek = szyfrujKawałek(kawałek, kluczPubliczny);
+			for (byte b : kawałek)  encrypted.add(b);
+		}
+		return toByteArray(encrypted);
+	}
+	
 	public byte[] deszyfruj(byte[] msg, Key kluczPrywatny) {
+		ArrayList<Byte> encrypted = new ArrayList<Byte>();
+		for (int i=0; i<msg.length; i+=64) {
+			int to = ((i+63)<msg.length) ? i+63 : msg.length;
+			byte[] kawałek = Arrays.copyOfRange(msg, i, to);
+			kawałek = deszyfrujKawałek(kawałek, kluczPrywatny);
+			for (byte b : kawałek)  encrypted.add(b);
+		}
+		return toByteArray(encrypted);
+	}
+	
+	private byte[] deszyfrujKawałek(byte[] msg, Key kluczPrywatny) {
 		BigInteger bigint = new BigInteger(msg);
 		try {
 			bigint = deszyfruj(bigint, kluczPrywatny);
@@ -96,5 +121,14 @@ public class Encoder {
 		byte[] a = new byte[padded.length-1];
 		System.arraycopy(padded, 1, a, 0, a.length);
 		return a;
+	}
+	
+	public static byte[] toByteArray(List<Byte> in) {
+	    final int n = in.size();
+	    byte ret[] = new byte[n];
+	    for (int i = 0; i < n; i++) {
+	        ret[i] = in.get(i);
+	    }
+	    return ret;
 	}
 }
