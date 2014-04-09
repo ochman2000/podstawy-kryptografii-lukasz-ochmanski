@@ -52,24 +52,28 @@ public class Encoder {
 	}
 	
 
-	public byte[] szyfruj(byte[] msg, Key kluczPubliczny) {
-		ArrayList<Byte> encrypted = new ArrayList<Byte>();
+	public Szyfrogram szyfruj(byte[] msg, Key kluczPubliczny) {
+		Szyfrogram s = new Szyfrogram();
 		for (int i=0; i<msg.length; i+=64) {
 			int	to = ((i+63)<msg.length) ? i+63 : msg.length;
 			byte[] kawałek = Arrays.copyOfRange(msg, i, to);
 			kawałek = szyfrujKawałek(kawałek, kluczPubliczny);
-			for (byte b : kawałek)  encrypted.add(b);
+			s.add(kawałek);
 		}
-		return toByteArray(encrypted);
+		return s;
 	}
 	
-	public byte[] deszyfruj(byte[] msg, Key kluczPrywatny) {
+	public byte[] deszyfruj(Szyfrogram s, Key kluczPrywatny) {
 		ArrayList<Byte> encrypted = new ArrayList<Byte>();
-		for (int i=0; i<msg.length; i+=64) {
-			int to = ((i+63)<msg.length) ? i+63 : msg.length;
-			byte[] kawałek = Arrays.copyOfRange(msg, i, to);
-			kawałek = deszyfrujKawałek(kawałek, kluczPrywatny);
-			for (byte b : kawałek)  encrypted.add(b);
+		ArrayList<Byte[]> szyfrogram = s.getSzyfrogram();
+		for (Byte[] kawałek : szyfrogram) {
+			byte[] a = new byte[kawałek.length];
+			for (int i=0; i<a.length; i++) {
+				a[i]=kawałek[i];
+			}
+			
+			byte[] d = deszyfrujKawałek(a, kluczPrywatny);
+			encrypted.addAll(toByteArray(d));
 		}
 		return toByteArray(encrypted);
 	}
@@ -128,6 +132,15 @@ public class Encoder {
 	    byte ret[] = new byte[n];
 	    for (int i = 0; i < n; i++) {
 	        ret[i] = in.get(i);
+	    }
+	    return ret;
+	}
+	
+	public static List<Byte> toByteArray(byte[] in) {
+	    final int n = in.length;
+	    List<Byte> ret = new ArrayList<Byte>();
+	    for (int i = 0; i < n; i++) {
+	        ret.add(in[i]);
 	    }
 	    return ret;
 	}

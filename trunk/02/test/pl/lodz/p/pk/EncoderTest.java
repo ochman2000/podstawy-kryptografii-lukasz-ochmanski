@@ -34,7 +34,7 @@ public class EncoderTest {
 		String a = Arrays.toString(dane);
 //		System.out.println("A: "+a);
 		
-		byte[] szyfrogram = en.szyfruj(dane, klucz.getPrywatny());
+		Szyfrogram szyfrogram = en.szyfruj(dane, klucz.getPrywatny());
 //		String b = Arrays.toString(szyfrogram);
 //		System.out.println("B: "+b);
 		
@@ -53,15 +53,15 @@ public class EncoderTest {
 		RSAKey klucz  = new RSAKey();		
 		
 		String a = Arrays.toString(dane);
-//		System.out.println("A: "+a);
+		System.out.println("A: "+a);
 		
-		byte[] szyfrogram = en.szyfruj(dane, klucz.getPrywatny());
+		Szyfrogram szyfrogram = en.szyfruj(dane, klucz.getPrywatny());
 //		String b = Arrays.toString(szyfrogram);
 //		System.out.println("B: "+b);
 		
 		byte[] dane2 = en.deszyfruj(szyfrogram, klucz.getPubliczny());
 		String c = Arrays.toString(dane2);
-//		System.out.println("C: "+c);
+		System.out.println("C: "+c);
 				
 		assertTrue(a.equals(c));
 		
