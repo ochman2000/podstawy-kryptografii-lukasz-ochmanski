@@ -1,6 +1,7 @@
 package pl.lodz.p.pk;
 
 import java.math.BigInteger;
+import java.util.Collections;
 
 public class Encoder {
 
@@ -19,6 +20,7 @@ public class Encoder {
 	}
 
 	public byte[] szyfruj(byte[] msg, Key kluczPubliczny) {
+		msg = padArray(msg);
 		BigInteger bigint = new BigInteger(msg);
 		bigint = szyfruj(bigint, kluczPubliczny);		
 		return bigint.toByteArray();
@@ -27,11 +29,11 @@ public class Encoder {
 	public byte[] deszyfruj(byte[] msg, Key kluczPrywatny) {
 		BigInteger bigint = new BigInteger(msg);
 		bigint = deszyfruj(bigint, kluczPrywatny);		
-		return bigint.toByteArray();
+		return unpadArray(bigint.toByteArray());
 	}
 	
 	public String szyfruj(String msg, Key kluczPubliczny) {
-		BigInteger kryptogr = new BigInteger(1, msg.getBytes());
+		BigInteger kryptogr = new BigInteger(msg.getBytes());
 		kryptogr = szyfruj(kryptogr, kluczPubliczny);
 		return kryptogr.toString(16);
 	}
@@ -40,5 +42,18 @@ public class Encoder {
 		BigInteger kryptogr = new BigInteger(msg, 16);
 		kryptogr = deszyfruj(kryptogr, kluczPrywatny);
 		return new String(kryptogr.toByteArray());
+	}
+	
+	public byte[] padArray(byte[] a) {
+		byte[] padded = new byte[a.length+1];
+		System.arraycopy(a, 0, padded, 1, a.length);
+		padded[0] = 1;
+		return padded;
+	}
+	
+	public byte[] unpadArray(byte[] padded) {
+		byte[] a = new byte[padded.length-1];
+		System.arraycopy(padded, 1, a, 0, a.length);
+		return a;
 	}
 }

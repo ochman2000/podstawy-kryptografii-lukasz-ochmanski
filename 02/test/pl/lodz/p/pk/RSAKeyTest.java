@@ -13,7 +13,7 @@ import org.junit.Test;
 public class RSAKeyTest {
 
 	@Test
-	public void test() {
+	public void test01() {
 		BigInteger tekst = new BigInteger("2345");
 
 		RSAKey klucz = new RSAKey();
@@ -33,7 +33,7 @@ public class RSAKeyTest {
 	}
 	
 	@Test
-	public void test2() {
+	public void test02() {
 		BigInteger tekst = new BigInteger("2");
 		
 		byte[] pośredni = tekst.toByteArray();
@@ -42,7 +42,7 @@ public class RSAKeyTest {
 	}
 	
 	@Test
-	public void test3() {
+	public void test03() {
 
 		Encoder en = new Encoder();
 		RSAKey klucz  = new RSAKey();
@@ -57,14 +57,14 @@ public class RSAKeyTest {
 //		System.out.println("Zaszyfrowany:  "+ Arrays.toString(szyfrogram));
 		
 		byte[] tekst2b = en.deszyfruj(szyfrogram, klucz.getPubliczny());
-		String tekst2 = Arrays.toString(tekst2b);
+//		String tekst2 = Arrays.toString(tekst2b);
 //		System.out.println("Odszyfrowany: "+ tekst2);
 		
 		assertTrue(tekst1b+".equals("+tekst2b+")", Arrays.equals(tekst1b, tekst2b));
 	}
 	
 	@Test
-	public void test4() {
+	public void test04() {
 
 		Encoder en = new Encoder();
 		RSAKey klucz  = new RSAKey();
@@ -84,16 +84,28 @@ public class RSAKeyTest {
 	}
 	
 	@Test
-	public void test5() {
+	public void test05() {
 		String msg = "ABCD";
-		BigInteger kryptogr = new BigInteger(1, msg.getBytes());
+		BigInteger kryptogr = new BigInteger(msg.getBytes());
 		String bigint = new String(kryptogr.toByteArray()); 
 		assertTrue(bigint, bigint.equals(msg));
 	}
 	
 	@Test
-	public void test6() {		
+	public void test06() {		
         byte[] msg = {0,1,2,3,4};
+		BigInteger bigint = new BigInteger(1, msg);	
+		String a = Arrays.toString(msg);
+		String b = Arrays.toString(bigint.toByteArray());
+//		System.out.println("A: "+a);
+//		System.out.println("B: "+bigint.toString(2));
+//		System.out.println("B: "+b);
+		assertFalse(b, a.equals(b));
+	}
+	
+	@Test
+	public void test07() {		
+        byte[] msg = {-1,1,1,2,3,4};
 		BigInteger bigint = new BigInteger(msg);	
 		String a = Arrays.toString(msg);
 		String b = Arrays.toString(bigint.toByteArray());
@@ -101,7 +113,7 @@ public class RSAKeyTest {
 	}
 	
 	@Test
-	public void test7() {		
+	public void test08() {		
         byte[] msg = {1,2,3,4,0};
 		BigInteger bigint = new BigInteger(msg);	
 		String a = Arrays.toString(msg);
@@ -110,7 +122,7 @@ public class RSAKeyTest {
 	}
 	
 	@Test
-	public void test8() {
+	public void test09() {
 		
 		byte[] dane = null;
 		try {
@@ -130,11 +142,11 @@ public class RSAKeyTest {
 		String b = Arrays.toString(bigint.toByteArray());
 //		System.out.println("A: "+a);
 //		System.out.println("B: "+b);
-		assertTrue(a.equals(b));
+		assertFalse(a.equals(b));
 	}
 	
 	@Test
-	public void test9() {
+	public void test10() {
 		
 		byte[] dane = null;
 		try {
@@ -153,14 +165,120 @@ public class RSAKeyTest {
 		byte[] bytes = bigint.toByteArray();
 		byte[] padded = new byte[bytes.length+1];
 		System.arraycopy(bytes, 0, padded, 1, bytes.length);
-		bytes[0] = -1;
+		padded[0] = dane[0];
 
 		String a = Arrays.toString(dane);
-		String b = Arrays.toString(bytes);
+		String b = Arrays.toString(padded);
 
-		System.out.println("B: "+b);
+//		System.out.println("B: "+b);
 		assertTrue(a.equals(b));
+	}
+	
+	@Test
+	public void test11() {
+		byte[] a = new byte[] {0,1,2,3,4};
+		Encoder en = new Encoder();
+		byte[] b = en.padArray(a);
+//		String a1 = Arrays.toString(a);
+		String b1 = Arrays.toString(b);
+//		System.out.println("A: "+a1);
+//		System.out.println("padded: "+b1);
 		
+		byte[] c = {1,0,1,2,3,4};
+		String c1 = Arrays.toString(c);
+		assertTrue(b1.equals(c1));	
+	}
+	
+	@Test
+	public void test12() {
+		byte[] a = new byte[] {0,1,2,3,4};
+		Encoder en = new Encoder();
+		byte[] b = en.unpadArray(a);
+//		String a1 = Arrays.toString(a);
+		String b1 = Arrays.toString(b);
+//		System.out.println("A: "+a1);
+//		System.out.println("unpadded: "+b1);
 		
+		byte[] c = {1,2,3,4};
+		String c1 = Arrays.toString(c);
+		assertTrue(b1.equals(c1));
+	}
+	
+	@Test
+	public void test13() {
+		
+		byte[] dane = null;
+		try {
+		    FileInputStream fis = new FileInputStream("out\\picture.jpg");
+	        int ileWPliku = fis.available();
+	        dane = new byte[ileWPliku];
+			fis.read(dane);
+	        fis.close();
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+
+        //PRZEPROCESUJ
+		Encoder en = new Encoder();
+        byte[] msg = en.padArray(dane);
+		BigInteger bigint = new BigInteger(msg);	
+		String a = Arrays.toString(dane);
+		String b = Arrays.toString(en.unpadArray(bigint.toByteArray()));
+//		System.out.println("A: "+a);
+//		System.out.println("B: "+b);
+		assertTrue(a.equals(b));
+	}
+	
+	@Test
+	public void test14() {
+		
+		byte[] dane = new byte[] {0,1,2,3,4};
+
+		Encoder en = new Encoder();
+		RSAKey klucz  = new RSAKey();		
+		
+		String a = Arrays.toString(dane);
+		System.out.println("A: "+a);
+		
+		byte[] szyfrogram = en.szyfruj(dane, klucz.getPrywatny());
+		String b = Arrays.toString(szyfrogram);
+		System.out.println("B: "+b);
+		
+		byte[] dane2 = en.deszyfruj(szyfrogram, klucz.getPubliczny());
+		String c = Arrays.toString(dane2);
+		System.out.println("C: "+c);
+				
+		assertTrue(a.equals(c));
+	}
+	
+	@Test
+	public void test15() {
+		
+		byte[] dane = null;
+		try {
+		    FileInputStream fis = new FileInputStream("out\\picture.jpg");
+	        int ileWPliku = fis.available();
+	        dane = new byte[ileWPliku];
+			fis.read(dane);
+	        fis.close();
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+
+		Encoder en = new Encoder();
+		RSAKey klucz  = new RSAKey();		
+		
+		String a = Arrays.toString(dane);
+//		System.out.println("A: "+a);
+		
+		byte[] szyfrogram = en.szyfruj(dane, klucz.getPrywatny());
+		String b = Arrays.toString(szyfrogram);
+//		System.out.println("B: "+b);
+		
+		byte[] dane2 = en.deszyfruj(szyfrogram, klucz.getPubliczny());
+		String c = Arrays.toString(dane2);
+//		System.out.println("C: "+c);
+				
+		assertTrue(a.equals(c));
 	}
 }
