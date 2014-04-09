@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Encoder {
 
+	private static final int CHUNK_SIZE = 64;
 	public static Debug LEVEL = Debug.LEVEL1;
 
 	public Encoder() {
@@ -25,14 +26,14 @@ public class Encoder {
 	 * @throws BigIntegerLengthException 
 	 */
 	public BigInteger szyfruj(BigInteger msg, Key klucz) throws BigIntegerLengthException {
-		if (msg.bitLength()>512)
+		if (msg.bitLength()>(CHUNK_SIZE*8))
 			throw new BigIntegerLengthException(msg);
 		else
 			return msg.modPow(klucz.getA(), klucz.getN());
 	}
 	
 	public BigInteger deszyfruj(BigInteger msg, Key klucz) throws BigIntegerLengthException {
-		if (msg.bitLength()>512)
+		if (msg.bitLength()>(CHUNK_SIZE*8))
 			throw new BigIntegerLengthException(msg);
 		else
 			return msg.modPow(klucz.getA(), klucz.getN());
@@ -53,12 +54,13 @@ public class Encoder {
 	
 
 	public Szyfrogram szyfruj(byte[] msg, Key kluczPubliczny) {
+		int chunk = CHUNK_SIZE-1;
 		Szyfrogram s = new Szyfrogram();
-		for (int i=0; i<msg.length; i+=64) {
-			int	to = ((i+63)<msg.length) ? i+63 : msg.length;
+		for (int i=0; i<msg.length; i+=chunk) {
+			int	to = ((i+chunk)<msg.length) ? i+chunk : msg.length;
 			byte[] kawałek = Arrays.copyOfRange(msg, i, to);
-			kawałek = szyfrujKawałek(kawałek, kluczPubliczny);
-			s.add(kawałek);
+			byte[] zaszyfrowanyKawałek = szyfrujKawałek(kawałek, kluczPubliczny);
+			s.add(zaszyfrowanyKawałek);
 		}
 		return s;
 	}

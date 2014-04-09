@@ -27,7 +27,7 @@ public class EncoderTest {
 	
 	@Test
 	public void test01() {
-		byte[] dane = getBytes(63);
+		byte[] dane = getBytes(64);
 		Encoder en = new Encoder();
 		RSAKey klucz  = new RSAKey();		
 		
@@ -48,7 +48,7 @@ public class EncoderTest {
 	
 	@Test
 	public void test02() {
-		byte[] dane = getBytes(64);
+		byte[] dane = getBytes(66);
 		Encoder en = new Encoder();
 		RSAKey klucz  = new RSAKey();		
 		
