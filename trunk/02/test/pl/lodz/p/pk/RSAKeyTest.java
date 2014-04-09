@@ -23,10 +23,22 @@ public class RSAKeyTest {
 //		System.out.println("Plain tekst: " + tekst);
 
 		Encoder en = new Encoder();
-		BigInteger szyfrogram = en.szyfruj(tekst, klucz.getPrywatny());
+		BigInteger szyfrogram = null;
+		try {
+			szyfrogram = en.szyfruj(tekst, klucz.getPrywatny());
+		} catch (BigIntegerLengthException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		System.out.println("Zaszyfrowany:  " + szyfrogram.toString());
 
-		BigInteger plainTekst = en.deszyfruj(szyfrogram, klucz.getPubliczny());
+		BigInteger plainTekst = null;
+		try {
+			plainTekst = en.deszyfruj(szyfrogram, klucz.getPubliczny());
+		} catch (BigIntegerLengthException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		System.out.println("Odszyfrowany: " + plainTekst);
 		
 		assertTrue("Dla "+tekst+" nie zgadza się.", tekst.equals(plainTekst));
@@ -232,21 +244,21 @@ public class RSAKeyTest {
 	@Test
 	public void test14() {
 		
-		byte[] dane = new byte[] {0,1,2,3,4};
+		byte[] dane = new byte[] {-128,-3,-2,-1,0,1,2,3,4};
 
 		Encoder en = new Encoder();
 		RSAKey klucz  = new RSAKey();		
 		
 		String a = Arrays.toString(dane);
-		System.out.println("A: "+a);
+//		System.out.println("A: "+a);
 		
 		byte[] szyfrogram = en.szyfruj(dane, klucz.getPrywatny());
-		String b = Arrays.toString(szyfrogram);
-		System.out.println("B: "+b);
+//		String b = Arrays.toString(szyfrogram);
+//		System.out.println("B: "+b);
 		
 		byte[] dane2 = en.deszyfruj(szyfrogram, klucz.getPubliczny());
 		String c = Arrays.toString(dane2);
-		System.out.println("C: "+c);
+//		System.out.println("C: "+c);
 				
 		assertTrue(a.equals(c));
 	}
@@ -269,15 +281,15 @@ public class RSAKeyTest {
 		RSAKey klucz  = new RSAKey();		
 		
 		String a = Arrays.toString(dane);
-//		System.out.println("A: "+a);
+		System.out.println("A: "+a);
 		
 		byte[] szyfrogram = en.szyfruj(dane, klucz.getPrywatny());
-		String b = Arrays.toString(szyfrogram);
+//		String b = Arrays.toString(szyfrogram);
 //		System.out.println("B: "+b);
 		
 		byte[] dane2 = en.deszyfruj(szyfrogram, klucz.getPubliczny());
 		String c = Arrays.toString(dane2);
-//		System.out.println("C: "+c);
+		System.out.println("C: "+c);
 				
 		assertTrue(a.equals(c));
 	}
