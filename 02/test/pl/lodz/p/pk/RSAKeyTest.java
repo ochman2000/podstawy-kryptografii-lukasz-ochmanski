@@ -65,7 +65,7 @@ public class RSAKeyTest {
 		String tekst1 = Arrays.toString(tekst1b);
 //		System.out.println("Plain tekst: "+ tekst);
 		
-		byte[] szyfrogram = en.szyfruj(tekst1b, klucz.getPrywatny());
+		Szyfrogram szyfrogram = en.szyfruj(tekst1b, klucz.getPrywatny());
 //		System.out.println("Zaszyfrowany:  "+ Arrays.toString(szyfrogram));
 		
 		byte[] tekst2b = en.deszyfruj(szyfrogram, klucz.getPubliczny());
@@ -252,7 +252,7 @@ public class RSAKeyTest {
 		String a = Arrays.toString(dane);
 //		System.out.println("A: "+a);
 		
-		byte[] szyfrogram = en.szyfruj(dane, klucz.getPrywatny());
+		Szyfrogram szyfrogram = en.szyfruj(dane, klucz.getPrywatny());
 //		String b = Arrays.toString(szyfrogram);
 //		System.out.println("B: "+b);
 		
@@ -283,7 +283,7 @@ public class RSAKeyTest {
 		String a = Arrays.toString(dane);
 //		System.out.println("A: "+a);
 		
-		byte[] szyfrogram = en.szyfruj(dane, klucz.getPrywatny());
+		Szyfrogram szyfrogram = en.szyfruj(dane, klucz.getPrywatny());
 //		String b = Arrays.toString(szyfrogram);
 //		System.out.println("B: "+b);
 		
