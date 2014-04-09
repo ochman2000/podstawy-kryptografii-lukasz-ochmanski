@@ -10,6 +10,6 @@ public class BigIntegerLengthException extends Exception{
 	private static final long serialVersionUID = 1L;
 
 	public BigIntegerLengthException(BigInteger bi) {
-		super("BigIntegerLengthException: Nie można spotęgować tak dużej liczby: "+bi.bitCount());
+		super("BigIntegerLengthException: Nie można spotęgować tak dużej liczby: "+bi.bitLength()+" bitów.");
 	}
 }
