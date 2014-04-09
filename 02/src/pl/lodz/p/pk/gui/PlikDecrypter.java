@@ -65,8 +65,8 @@ public class PlikDecrypter extends JFrame {
 		this.add(b);
 		
 		JButton a = new JButton("Odszyfruj");
-		a.setLocation(400, 200);
-		a.setSize(100, 23);
+		a.setLocation(220, 300);
+		a.setSize(140, 23);
 		a.setVisible(true);
 		OdkodujHandler zh = new OdkodujHandler();
 		a.addActionListener(zh);
