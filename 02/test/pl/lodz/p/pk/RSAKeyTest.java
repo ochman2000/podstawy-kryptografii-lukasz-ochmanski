@@ -62,17 +62,17 @@ public class RSAKeyTest {
 //		System.out.println("Klucz publiczny: "+ klucz.getPubliczny());
 		
 		byte[] tekst1b = "HAHAHA".getBytes(Charset.defaultCharset());
-//		String tekst = Arrays.toString(tekst1b);
+		String tekst1 = Arrays.toString(tekst1b);
 //		System.out.println("Plain tekst: "+ tekst);
 		
 		byte[] szyfrogram = en.szyfruj(tekst1b, klucz.getPrywatny());
 //		System.out.println("Zaszyfrowany:  "+ Arrays.toString(szyfrogram));
 		
 		byte[] tekst2b = en.deszyfruj(szyfrogram, klucz.getPubliczny());
-//		String tekst2 = Arrays.toString(tekst2b);
+		String tekst2 = Arrays.toString(tekst2b);
 //		System.out.println("Odszyfrowany: "+ tekst2);
 		
-		assertTrue(tekst1b+".equals("+tekst2b+")", Arrays.equals(tekst1b, tekst2b));
+		assertTrue(tekst1+".equals("+tekst2+")", Arrays.equals(tekst1b, tekst2b));
 	}
 	
 	@Test
@@ -281,7 +281,7 @@ public class RSAKeyTest {
 		RSAKey klucz  = new RSAKey();		
 		
 		String a = Arrays.toString(dane);
-		System.out.println("A: "+a);
+//		System.out.println("A: "+a);
 		
 		byte[] szyfrogram = en.szyfruj(dane, klucz.getPrywatny());
 //		String b = Arrays.toString(szyfrogram);
@@ -289,7 +289,7 @@ public class RSAKeyTest {
 		
 		byte[] dane2 = en.deszyfruj(szyfrogram, klucz.getPubliczny());
 		String c = Arrays.toString(dane2);
-		System.out.println("C: "+c);
+//		System.out.println("C: "+c);
 				
 		assertTrue(a.equals(c));
 	}
