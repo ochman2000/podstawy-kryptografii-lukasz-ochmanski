@@ -1,7 +1,6 @@
 package pl.lodz.p.pk;
 
 import java.math.BigInteger;
-import java.util.Collections;
 
 public class Encoder {
 
@@ -11,36 +10,78 @@ public class Encoder {
 
 	}
 
-	public BigInteger szyfruj(BigInteger msg, Key klucz) {
-		return msg.modPow(klucz.getA(), klucz.getN());
+	/**
+	 * Tutaj dokonują się wszsytkie obliczenia.
+	 * Niestety jednak okazało się, że próba potęgowania liczb większych niż 64 bajty,
+	 * kończy się katastrofą. Zatem, należy użyć pętlę i robić to na kawałkach, które,
+	 * potem się łączy.
+	 * 
+	 * @param msg
+	 * @param klucz
+	 * @return
+	 * @throws BigIntegerLengthException 
+	 */
+	public BigInteger szyfruj(BigInteger msg, Key klucz) throws BigIntegerLengthException {
+		if (msg.bitLength()>512)
+			throw new BigIntegerLengthException(msg);
+		else
+			return msg.modPow(klucz.getA(), klucz.getN());
 	}
 	
-	public BigInteger deszyfruj(BigInteger msg, Key klucz) {
-		return msg.modPow(klucz.getA(), klucz.getN());
+	public BigInteger deszyfruj(BigInteger msg, Key klucz) throws BigIntegerLengthException {
+		if (msg.bitLength()>512)
+			throw new BigIntegerLengthException(msg);
+		else
+			return msg.modPow(klucz.getA(), klucz.getN());
 	}
 
 	public byte[] szyfruj(byte[] msg, Key kluczPubliczny) {
 		msg = padArray(msg);
 		BigInteger bigint = new BigInteger(msg);
-		bigint = szyfruj(bigint, kluczPubliczny);		
+		try {
+			bigint = szyfruj(bigint, kluczPubliczny);
+		} catch (BigIntegerLengthException e) {
+			System.err.println("Błąd podczas szyfrowania: \n"+e.getMessage());
+//			e.printStackTrace();
+			return null;
+		}		
 		return bigint.toByteArray();
 	}
 	
+
 	public byte[] deszyfruj(byte[] msg, Key kluczPrywatny) {
 		BigInteger bigint = new BigInteger(msg);
-		bigint = deszyfruj(bigint, kluczPrywatny);		
+		try {
+			bigint = deszyfruj(bigint, kluczPrywatny);
+		} catch (BigIntegerLengthException e) {
+			System.err.println("Błąd podczas deszyfrowania: \n"+e.getMessage());
+//			e.printStackTrace();
+			return null;
+		}		
 		return unpadArray(bigint.toByteArray());
 	}
-	
+
 	public String szyfruj(String msg, Key kluczPubliczny) {
 		BigInteger kryptogr = new BigInteger(msg.getBytes());
-		kryptogr = szyfruj(kryptogr, kluczPubliczny);
+		try {
+			kryptogr = szyfruj(kryptogr, kluczPubliczny);
+		} catch (BigIntegerLengthException e) {
+			System.err.println("Błąd podczas szyfrowania: \n"+e.getMessage());
+//			e.printStackTrace();
+			return null;
+		}
 		return kryptogr.toString(16);
 	}
 	
 	public String deszyfruj(String msg, Key kluczPrywatny) {
 		BigInteger kryptogr = new BigInteger(msg, 16);
-		kryptogr = deszyfruj(kryptogr, kluczPrywatny);
+		try {
+			kryptogr = deszyfruj(kryptogr, kluczPrywatny);
+		} catch (BigIntegerLengthException e) {
+			System.err.println("Błąd podczas deszyfrowania: \n"+e.getMessage());
+//			e.printStackTrace();
+			return null;
+		}
 		return new String(kryptogr.toByteArray());
 	}
 	
